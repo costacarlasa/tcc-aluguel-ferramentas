@@ -1,6 +1,4 @@
 <?php
-// Arquivo: /Model/conexao.php
-
 $host = 'localhost';
 $db_name = 'aluguel_ferramentas';
 $user = 'root';
