@@ -1,6 +1,6 @@
 <?php
 
-require_once 'conexao.php';
+require_once 'Conexao.php';
 
 class Usuario {
 
@@ -13,8 +13,9 @@ class Usuario {
     private $cpfCnpj;
     private $senha;
     private $tipoUsuario; 
+    private $nivelAcessoUsuario; 
 
-// MÉTODOS SETTER 
+// MÉTODOS SETTER
     public function setId($id) {
         $this->id = $id;
     }
@@ -39,13 +40,14 @@ class Usuario {
     public function setSenha($senha) {
         $this->senha = $senha;
     }
-
     public function setTipoUsuario($tipoUsuario) {
-    $this->tipoUsuario = $tipoUsuario;
+        $this->tipoUsuario = $tipoUsuario;
+    }
+    public function setnivelAcessoUsuario($nivel) {
+        $this->nivelAcessoUsuario = $nivel;
     }
 
     
-
 // MÉTODOS GETTER
     public function getId() {
     return $this->id;
@@ -66,7 +68,7 @@ class Usuario {
     return $this->endereco;
     }
 
-    public function getCategoriaCliente() {
+    public function getcategoriaCliente() {
     return $this->categoriaCliente;
     }
 
@@ -81,32 +83,53 @@ class Usuario {
     public function getTipoUsuario() {
     return $this->tipoUsuario;
     }
+
+    public function getnivelAcessoUsuario() {
+    return $this->nivelAcessoUsuario;    
+    }
     
 //MÉTODO CADASTRAR
     public function cadastrar() {
         
-        $conexaoBD = new ConexaoBD(); //obter a conexão
+        $conexaoBD = new ConexaoBD(); 
         $pdo = $conexaoBD->conectar();
 
         $this->tipoUsuario = 'cliente'; 
+        $this->nivelAcessoUsuario = 'basico';
         
-//CRIPTOGRAFIA DA SENHA
         $senhaCriptografada = password_hash($this->senha, PASSWORD_DEFAULT);
 
         try {
-            $sql = "INSERT INTO usuario (nome, email, senha, telefone, endereco, tipo, cpf_cnpj, categoria_cliente) 
-                    VALUES (:nome, :email, :senha, :telefone, :endereco, :tipo, :cpf_cnpj, :categoria)";
+            $sql = "INSERT INTO usuario (nomeUsuario, 
+                                        emailUsuario, 
+                                        senhaUsuario, 
+                                        tipoUsuario, 
+                                        categoriaCliente, 
+                                        nivelAcessoUsuario, 
+                                        cpf_cnpjUsuario, 
+                                        telefoneUsuario, 
+                                        enderecoUsuario) 
+                    VALUES (:nomeUsuario, 
+                            :emailUsuario, 
+                            :senhaUsuario, 
+                            :tipoUsuario, 
+                            :categoriaCliente, 
+                            :nivelAcessoUsuario, 
+                            :cpf_cnpjUsuario, 
+                            :telefoneUsuario, 
+                            :enderecoUsuario)";
 
             $stmt = $pdo->prepare($sql);
 
-            $stmt->bindParam(':nome', $this->nome);
-            $stmt->bindParam(':email', $this->email);
-            $stmt->bindParam(':senha', $senhaCriptografada);
-            $stmt->bindParam(':telefone', $this->telefone);
-            $stmt->bindParam(':endereco', $this->endereco);
-            $stmt->bindParam(':tipo', $this->tipoUsuario);
-            $stmt->bindParam(':cpf_cnpj', $this->cpfCnpj);
-            $stmt->bindParam(':categoria', $this->categoriaCliente);
+            $stmt->bindParam(':nomeUsuario', $this->nome);
+            $stmt->bindParam(':emailUsuario', $this->email);
+            $stmt->bindParam(':senhaUsuario', $senhaCriptografada);
+            $stmt->bindParam(':tipoUsuario', $this->tipoUsuario);
+            $stmt->bindParam(':categoriaCliente', $this->categoriaCliente);
+            $stmt->bindParam(':nivelAcessoUsuario', $this->nivelAcessoUsuario);
+            $stmt->bindParam(':cpf_cnpjUsuario', $this->cpfCnpj);
+            $stmt->bindParam(':telefoneUsuario', $this->telefone);
+            $stmt->bindParam(':enderecoUsuario', $this->endereco); 
             
             $stmt->execute();
             return true;
@@ -117,5 +140,37 @@ class Usuario {
         }
     }
 
+// MÉTODO VERIFICAR LOGIN 
+    public function verificarLogin($email, $senha) {
+        
+        $conexaoBD = new ConexaoBD(); 
+        $pdo = $conexaoBD->conectar();
+
+        try {
+            $sql = "SELECT * FROM usuario WHERE emailUsuario = :emailUsuario LIMIT 1";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':emailUsuario', $email);
+            
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if (password_verify($senha, $usuario['senhaUsuario'])) {
+                    return $usuario; 
+                } else {
+                    return false;
+                }
+
+            } else {
+                return false;
+            }
+
+        } catch (PDOException $e) {
+            echo "Erro ao verificar login: " . $e->getMessage();
+            return false;
+        }
+    }
 }
 ?>
