@@ -25,6 +25,20 @@ else {
         default:
             include_once __DIR__ . '/../View/login.php';
             break;
+    
+            case 'painel_admin':
+            // Protege a rota — só permite se o usuário for admin
+            if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'administrador') {
+                include_once __DIR__ . '/../View/admin/painel.php';
+            } else {
+                header('Location: index.php?pagina=login&status=acesso_negado');
+                exit;
+            }
+            break;
+
+        default:
+            include_once __DIR__ . '/../View/login.php';
+            break;
     }
 }
-?>
+
