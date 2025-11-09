@@ -1,12 +1,12 @@
 <?php
-require_once '../Model/Usuario.php';
+require_once __DIR__ . '/../Model/Usuario.php';
 
 class UsuarioController {
 
     public function processarCadastro() {
 
         if ($_POST['senha_usuario'] !== $_POST['confirmar_senha']) { //validar senha
-            header("Location: ../View/feedback.php?status=erro_senha");
+            header("Location: View/feedbackCadastroUsuario.php?status=erro_senha");
             exit;
         }
 
@@ -23,16 +23,35 @@ class UsuarioController {
         $sucesso = $usuario->cadastrar();
 
         if ($sucesso) {
-            header("Location: ../View/feedback.php?status=cadastro_sucesso");
+            header("Location: View/feedbackCadastroUsuario.php?status=cadastro_sucesso");
             exit;
         } else {
-            header("Location: ../View/feedback.php?status=cadastro_erro");
+            header("Location: View/feedbackCadastroUsuario.php?status=cadastro_erro");
             exit;
         }
     }
 
     public function processarLogin() {
-        echo "Lógica de login será implementada aqui.";
+        $email = $_POST['email_usuario'];
+        $senha = $_POST['senha_usuario'];
+        
+        $usuarioModel = new Usuario();
+        $dadosUsuario = $usuarioModel->verificarLogin($email, $senha);
+        if ($dadosUsuario) {
+            $_SESSION['id_usuario'] = $dadosUsuario['idUsuario'];
+            $_SESSION['nome_usuario'] = $dadosUsuario['nomeUsuario'];
+            $_SESSION['tipo_usuario'] = $dadosUsuario['tipoUsuario'];
+
+            if ($dadosUsuario['tipoUsuario'] == 'administrador') {
+                header("Location: View/admin/acessoAdmin.php");
+            } else {
+                header("Location: View/cliente/acessoCliente.php");
+            }
+            exit;
+        } else {
+            header("Location: index.php?pagina=login&status=login_invalido");
+            exit; 
+        }
     }
 }
 ?>
