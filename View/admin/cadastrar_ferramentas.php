@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
+    header('Location: ../../login.php?status=acesso_negado');
+    exit;
+}
+?>
+
 <form action="../Controller/FerramentaController.php" method="POST">
     <input type="text" name="nome_ferramenta" placeholder="Nome da ferramenta" required>
     <textarea name="descricao_ferramenta" placeholder="Descrição" required></textarea>

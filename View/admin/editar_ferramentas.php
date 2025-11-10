@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
+    header('Location: ../../login.php?status=acesso_negado');
+    exit;
+}
+?>
+
 <form action="../Controller/FerramentaController.php" method="POST">
     <input type="hidden" name="id_ferramenta" value="<?= $ferramenta['id_ferramenta'] ?>">
 
