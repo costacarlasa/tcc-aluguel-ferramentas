@@ -1,123 +1,83 @@
 <?php
-// Inicia a sessão e verifica se o usuário é administrador
 session_start();
+
+// Apenas administradores podem acessar
 if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
     header('Location: ../../login.php?status=acesso_negado');
     exit;
+}
+
+// Conexão com o banco de dados
+require_once '../../Model/Conexao.php';
+
+try {
+    $conexaoBD = new ConexaoBD();
+    $con = $conexaoBD->conectar();
+
+    $stmt = $con->prepare("SELECT * FROM ferramentas ORDER BY id_ferramenta DESC");
+    $stmt->execute();
+    $ferramentas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (Exception $e) {
+    $ferramentas = [];
+    $erro = $e->getMessage();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Cadastro de Ferramenta</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f4f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .form-container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 400px;
-    }
-
-    .form-container h2 {
-      text-align: center;
-      color: #2e7d32;
-      margin-bottom: 20px;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    input[type="file"],
-    textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-    }
-
-    textarea {
-      resize: none;
-      height: 80px;
-    }
-
-    .form-container button {
-      width: 100%;
-      padding: 12px;
-      background-color: #2e7d32;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .form-container button:hover {
-      background-color: #27632a;
-    }
-
-    .back-link {
-      text-align: center;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-
-    .back-link a {
-      color: #2e7d32;
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Gerenciar Ferramentas</title>
+    <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
-  <div class="form-container">
-    <h2><?php echo isset($ferramenta) ? "Editar Ferramenta" : "Cadastrar Ferramenta"; ?></h2>
 
-    <form action="../../controller/FerramentaController.php" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="acao" value="<?php echo isset($ferramenta) ? 'atualizar' : 'inserir'; ?>">
-      <?php if (isset($ferramenta)): ?>
-        <input type="hidden" name="id_ferramenta" value="<?php echo $ferramenta['id_ferramenta']; ?>">
-      <?php endif; ?>
+<header>
+    <h1>Gerenciar Ferramentas</h1>
+    <a href="acessoAdmin.php">← Voltar ao Painel</a>
+</header>
 
-      <input type="text" name="nome_ferramenta" placeholder="Nome da Ferramenta" 
-             value="<?php echo $ferramenta['nome_ferramenta'] ?? ''; ?>" required>
+<main>
+    <?php if (isset($erro)): ?>
+        <p style="color:red;">Erro ao carregar ferramentas: <?= htmlspecialchars($erro) ?></p>
+    <?php endif; ?>
 
-      <textarea name="descricao_ferramenta" placeholder="Descrição da Ferramenta" required><?php echo $ferramenta['descricao_ferramenta'] ?? ''; ?></textarea>
+    <a href="formFerramenta.php" class="btn">+ Nova Ferramenta</a>
 
-      <input type="number" name="preco_ferramenta" placeholder="Preço de aluguel (R$)" step="0.01" 
-             value="<?php echo $ferramenta['preco_ferramenta'] ?? ''; ?>" required>
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Modelo</th>
+                <th>Preço (R$)</th>
+                <th>Disponibilidade</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($ferramentas)): ?>
+                <tr><td colspan="5">Nenhuma ferramenta cadastrada.</td></tr>
+            <?php else: ?>
+                <?php foreach ($ferramentas as $f): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($f['nome_ferramenta']) ?></td>
+                        <td><?= htmlspecialchars($f['modelo']) ?></td>
+                        <td><?= number_format($f['preco_ferramenta'], 2, ',', '.') ?></td>
+                        <td><?= $f['disponivel'] ? 'Disponível' : 'Indisponível' ?></td>
+                        <td>
+                            <a href="formFerramenta.php?id_ferramenta=<?= $f['id_ferramenta'] ?>">Editar</a> |
+                            <a href="../../Controller/FerramentaController.php?acao=excluir&id=<?= $f['id_ferramenta'] ?>" onclick="return confirm('Deseja realmente excluir esta ferramenta?')">Excluir</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</main>
 
-      <input type="text" name="categoria_ferramenta" placeholder="Categoria" 
-             value="<?php echo $ferramenta['categoria_ferramenta'] ?? ''; ?>">
-
-      <input type="file" name="foto_ferramenta" accept="image/*">
-
-      <?php if (!empty($ferramenta['foto_ferramenta'])): ?>
-        <p style="font-size: 13px;">Imagem atual: 
-          <img src="../../uploads/<?php echo $ferramenta['foto_ferramenta']; ?>" alt="Ferramenta" width="60">
-        </p>
-      <?php endif; ?>
-
-      <button type="submit">
-        <?php echo isset($ferramenta) ? "Salvar Alterações" : "Cadastrar Ferramenta"; ?>
-      </button>
-    </form>
-
-    <div class="back-link">
-      <a href="listar_ferramentas.php">← Voltar para lista</a>
-    </div>
-  </div>
 </body>
 </html>
+$ferramentas = [];
+    $erro = $e->getMessage();
+}
+?>

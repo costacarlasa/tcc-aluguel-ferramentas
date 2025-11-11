@@ -38,7 +38,8 @@ if (!$ferramenta) {
 <head>
     <meta charset="UTF-8">
     <title>Editar Ferramenta</title>
-    <link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="../css/admin.css">
+
 </head>
 <body>
 

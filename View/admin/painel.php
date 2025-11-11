@@ -18,7 +18,8 @@ if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administ
     <header>
         <h1>Painel Administrativo</h1>
         <nav>
-            <a href="listar_ferramentas.php">Gerenciar Ferramentas</a>
+         <a href="listar_ferramentas.php">Gerenciar Ferramentas</a>
+
             <a href="../Controller/LogoutController.php">Sair</a>
         </nav>
     </header>
