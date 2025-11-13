@@ -1,36 +1,5 @@
 <?php
-session_start();
-// Verifica se o usuário é administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
-    header('Location: ../../login.php?status=acesso_negado');
-    exit;
-}
-
-//  Conexão e model
-require_once '../Model/Conexao.php';
-require_once '../Model/Ferramenta.php';
-
-// Verifica se o ID da ferramenta foi passado via GET
-if (!isset($_GET['id_ferramenta'])) {
-    echo "ID da ferramenta não fornecido!";
-    exit;
-}
-
-$id_ferramenta = $_GET['id_ferramenta'];
-
-// Conecta e busca os dados da ferramenta
-$conexaoBD = new ConexaoBD();
-$con = $conexaoBD->conectar();
-
-$stmt = $con->prepare("SELECT * FROM ferramentas WHERE id_ferramenta = :id_ferramenta");
-$stmt->bindParam(':id_ferramenta', $id_ferramenta, PDO::PARAM_INT);
-$stmt->execute();
-$ferramenta = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$ferramenta) {
-    echo "Ferramenta não encontrada!";
-    exit;
-}
+    require_once __DIR__ . '/../../Controller/verificaAdmin.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -42,35 +11,55 @@ if (!$ferramenta) {
 </head>
 <body>
 
-<h2>Editar Ferramenta</h2>
+<?php 
+    require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
+?>
 
-<form action="../Controller/FerramentaController.php" method="POST" enctype="multipart/form-data">
-    <!-- ID oculto para identificar a ferramenta no controller -->
-    <input type="hidden" name="id_ferramenta" value="<?= $ferramenta['id_ferramenta'] ?>">
+<main>
+    <h2>Editar Ferramenta</h2>
 
-    <label>Nome:</label>
-    <input type="text" name="nome_ferramenta" value="<?= htmlspecialchars($ferramenta['nome_ferramenta']) ?>" required>
+    <form action="index.php" method="POST" enctype="multipart/form-data">
 
-    <label>Descrição:</label>
-    <textarea name="descricao_ferramenta" required><?= htmlspecialchars($ferramenta['descricao_ferramenta']) ?></textarea>
+        <input type="hidden" name="id_ferramenta" value="<?= htmlspecialchars($ferramenta['idFerramenta']) ?>">
+        <div>
+            <label>Nome:</label>
+            <input type="text" name="nome_ferramenta" value="<?= htmlspecialchars($ferramenta['nomeFerramenta']) ?>" required>
+        </div>
 
-    <label>Categoria:</label>
-    <input type="text" name="categoria_ferramenta" value="<?= htmlspecialchars($ferramenta['categoria_ferramenta']) ?>" required>
+        <div>
+            <label>Modelo:</label>
+            <input type="text" name="modelo_ferramenta" value="<?= htmlspecialchars($ferramenta['modeloFerramenta']) ?>" >
+        </div>
 
-    <label>Preço:</label>
-    <input type="number" step="0.01" name="preco_ferramenta" value="<?= $ferramenta['preco_ferramenta'] ?>" required>
+        <div>
+            <label>Categoria:</label>
+            <input type="text" name="categoria_ferramenta" value="<?= htmlspecialchars($ferramenta['categoriaFerramenta']) ?>" required>
+        </div>
 
-    <label>Disponibilidade:</label>
-    <select name="disponibilidade_ferramenta">
-        <option value="1" <?= $ferramenta['disponibilidade_ferramenta'] ? 'selected' : '' ?>>Disponível</option>
-        <option value="0" <?= !$ferramenta['disponibilidade_ferramenta'] ? 'selected' : '' ?>>Indisponível</option>
-    </select>
+        <div>
+            <label>Valor da Diária</label>
+            <input type="number" step="0.01" name="preco_ferramenta" value="<?= $ferramenta['precoFerramenta'] ?>" required>
+        </div>
 
-    <label>Foto (opcional):</label>
-    <input type="file" name="foto_ferramenta">
+        <div>
+            <label>Disponibilidade:</label>
+                <select name="disponibilidade_ferramenta">
+                    <option value="disponivel" <?= ($ferramenta['disponibilidadeFerramenta'] == 'disponivel') ? 'selected' : '' ?>>Disponível</option>
+                    <option value="inativa" <?= ($ferramenta['disponibilidadeFerramenta'] == 'inativa') ? 'selected' : '' ?>>Indisponível (Inativa)</option>
+                    <option value="reservada" <?= ($ferramenta['disponibilidadeFerramenta'] == 'reservada') ? 'selected' : '' ?>>Reservada</option>
+                </select>
+        </div>
 
-    <button type="submit" name="acao_ferramenta_editar">Salvar alterações</button>
-</form>
+        <div>
+            <label>Foto (opcional):</label>
+            <input type="file" name="foto_ferramenta">
+            <?php if (!empty($ferramenta['fotoFerramenta'])): ?>
+                <p>Foto atual: <img src="Img/<?= htmlspecialchars($ferramenta['fotoFerramenta']) ?>" alt="Foto" width="100"></p>
+            <?php endif; ?>
+        </div>
 
+        <button type="submit" name="acao_ferramenta_editar">Salvar alterações</button>
+    </form>
+</main>
 </body>
 </html>

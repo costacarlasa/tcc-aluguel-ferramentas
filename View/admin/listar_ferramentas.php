@@ -1,19 +1,7 @@
 <?php
-session_start();
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
-    header('Location: ../../login.php?status=acesso_negado');
-    exit;
-}
-
-require_once '../Model/Conexao.php';
-
-$conexaoBD = new ConexaoBD();
-$con = $conexaoBD->conectar();
-
-$stmt = $con->prepare("SELECT * FROM ferramentas");
-$stmt->execute();
-$ferramentas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -22,33 +10,63 @@ $ferramentas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <h2>Lista de Ferramentas</h2>
-    <table border="1" cellpadding="8">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Preço</th>
-                <th>Disponível</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($ferramentas as $f): ?>
+
+<?php 
+    require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
+?>
+
+<main>
+        <h2>Lista de Ferramentas</h2>
+        <p><a href="?pagina=cadastrar_ferramentas">Cadastrar Nova Ferramenta</a></p>
+
+        <table border="1">
+            <thead>
                 <tr>
-                    <td><?= $f['id_ferramenta'] ?></td>
-                    <td><?= $f['nome_ferramenta'] ?></td>
-                    <td><?= $f['categoria_ferramenta'] ?></td>
-                    <td>R$ <?= number_format($f['preco_ferramenta'], 2, ',', '.') ?></td>
-                    <td><?= $f['disponibilidade_ferramenta'] ? 'Sim' : 'Não' ?></td>
-                    <td>
-                        <a href="editar_ferramentas.php?id_ferramenta=<?= $f['id_ferramenta'] ?>">Editar</a> |
-                        <a href="excluir_ferramentas.php?id_ferramenta=<?= $f['id_ferramenta'] ?>" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
-                    </td>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Modelo</th>
+                    <th>Categoria</th>
+                    <th>Valor da Diária</th>
+                    <th>Disponibilidade</th>
+                    <th>Foto</th>
+                    <th>Ações</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php
+                if (isset($ferramentas) && !empty($ferramentas)):
+                    foreach ($ferramentas as $f):
+                ?>
+                    <tr>
+                        <td><?= htmlspecialchars($f['idFerramenta']) ?></td>
+                        <td><?= htmlspecialchars($f['nomeFerramenta']) ?></td>
+                        <td><?= htmlspecialchars($f['modeloFerramenta']) ?></td>
+                        <td><?= htmlspecialchars($f['categoriaFerramenta']) ?></td>
+                        <td>R$ <?= number_format($f['precoFerramenta'], 2, ',', '.') ?></td>
+                        <td><?= htmlspecialchars($f['disponibilidadeFerramenta']) ?></td>
+                        <td>
+                            <?php if (!empty($f['fotoFerramenta'])): ?>
+                                <img src="../../uploads/<?= htmlspecialchars($f['fotoFerramenta']) ?>" alt="<?= htmlspecialchars($f['nomeFerramenta']) ?>" width="100">
+                            <?php else: ?>
+                                Sem Foto
+                            <?php endif; ?>
+                        </td>
+
+                        <td>
+                            <a href="?pagina=editar_ferramentas&id=<?= $f['idFerramenta'] ?>">Editar</a> |
+                            <a href="?pagina=excluir_ferramentas&id=<?= $f['idFerramenta'] ?>">Excluir</a>
+                        </td>
+                    </tr>
+                <?php
+                    endforeach;
+                else:
+                ?>
+                    <tr>
+                        <td colspan="8">Nenhuma ferramenta cadastrada ainda.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </main>
 </body>
 </html>

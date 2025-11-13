@@ -1,15 +1,8 @@
 <?php
-session_start();
-
-// Verifica se o usuário é administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
-    header('Location: ../../login.php?status=acesso_negado');
-    exit;
-}
-
-// Nome do administrador logado
-$nomeAdmin = $_SESSION['nome_usuario'];
+   require_once __DIR__ . '/../../Controller/verificaAdmin.php';
+    // Se o script chegou até aqui, o usuário é um admin válido.
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -21,23 +14,18 @@ $nomeAdmin = $_SESSION['nome_usuario'];
 <body>
 
 <header>
-    <h1>Bem-vindo, <?= htmlspecialchars($nomeAdmin) ?>!</h1>
+    <h1>Bem-vindo, <?= htmlspecialchars($_SESSION['nome_usuario']) ?>!</h1>
 </header>
-
-<nav>
-    <ul>
-        <li><a href="acessoAdmin.php">Início</a></li>
-        <li><a href="formFerramenta.php">Cadastrar Ferramenta</a></li>
-        <li><a href="listarFerramentas.php">Listar Ferramentas</a></li>
-        <li><a href="reservas.php">Gerenciar Reservas</a></li>
-        <li><a href="#">Logout</a></li> 
-    </ul>
-</nav>
-
 <main>
     <h2>Painel Administrativo</h2>
-    <p>Use o menu acima para navegar pelas funções do sistema.</p>
+    <p>Use o menu abaixo para navegar pelas funções do sistema.</p>
 </main>
+
+<?php 
+    require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php';
+?>
+
+
 
 </body>
 </html>
