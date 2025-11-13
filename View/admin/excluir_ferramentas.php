@@ -1,13 +1,30 @@
-<?php
-session_start();
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
-    header('Location: ../../login.php?status=acesso_negado');
-    exit;
-}
+<?php 
+    require_once __DIR__ . '/../../Controller/verificaAdmin.php'; 
 ?>
 
-<form action="../Controller/FerramentaController.php" method="POST">
-    <input type="hidden" name="id_ferramenta" value="<?= $ferramenta['id_ferramenta'] ?>">
-    <p>Tem certeza que deseja excluir <strong><?= $ferramenta['nome_ferramenta'] ?></strong>?</p>
-    <button type="submit" name="acao_ferramenta_excluir">Excluir</button>
-</form>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Excluir Ferramenta</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+<?php 
+    require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
+?>
+
+<main>
+    <h2>Confirmar Exclusão</h2>
+    <form action="index.php" method="POST">
+        <input type="hidden" name="id_ferramenta" value="<?= $ferramenta['idFerramenta'] ?>">
+        <p>Tem certeza que deseja excluir <strong><?= htmlspecialchars($ferramenta['nomeFerramenta']) ?></strong>?</p>
+        <div>
+            <button type="submit" name="acao_ferramenta_excluir">Excluir</button>
+            <a href="?pagina=listar_ferramentas">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

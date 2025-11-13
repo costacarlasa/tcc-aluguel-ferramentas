@@ -1,21 +1,59 @@
-<?php
-session_start();
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'administrador') {
-    header('Location: ../../login.php?status=acesso_negado');
-    exit;
-}
+<?php 
+    require_once __DIR__ . '/../../Controller/verificaAdmin.php'; 
 ?>
 
-<form action="../Controller/FerramentaController.php" method="POST">
-    <input type="text" name="nome_ferramenta" placeholder="Nome da ferramenta" required>
-    <textarea name="descricao_ferramenta" placeholder="Descrição" required></textarea>
-    <input type="text" name="categoria_ferramenta" placeholder="Categoria" required>
-    <input type="number" name="preco_ferramenta" step="0.01" placeholder="Preço" required>
-    
-    <select name="disponibilidade_ferramenta">
-        <option value="1">Disponível</option>
-        <option value="0">Indisponível</option>
-    </select>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Ferramenta</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+
+<?php 
+    require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
+?>
+
+<main>
+    <h2>Cadastrar Nova Ferramenta</h2>
+    <form action="index.php" method="POST" enctype="multipart/form-data">
+    <div>
+        <label>Nome:</label>
+            <input type="text" name="nome_ferramenta" placeholder="Ex: Furadeira de Impacto Bosch" required>
+    </div>
+
+    <div>
+        <label>Modelo:</label>
+        <input type="text" name="modelo_ferramenta" placeholder="GSB 450 RE">
+    </div>
+
+    <div>
+        <label>Categoria:</label>
+            <input type="text" name="categoria_ferramenta" placeholder="Marcenaria" required>
+    </div>
+
+    <div>
+            <label>Valor da Diára (R$):</label>
+            <input type="number" name="preco_ferramenta" step="0.01" placeholder="R$ 189,90" required>
+    </div>
+
+    <div>
+        <label>Disponibilidade:</label>        
+        <select name="disponibilidade_ferramenta">
+            <option value="disponivel">Disponível</option>
+            <option value="reservada">Reservada</option>
+            <option value="inativa">Inativa</option>
+        </select>
+    </div>
+
+    <div>
+            <label>Foto:</label>
+            <input type="file" name="foto_ferramenta">
+        </div>
 
     <button type="submit" name="acao_ferramenta_cadastrar">Cadastrar</button>
-</form>
+    </form>
+</main>
+</body>
+</html>
