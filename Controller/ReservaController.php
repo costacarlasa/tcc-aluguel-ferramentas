@@ -100,7 +100,7 @@ class ReservaController {
         $idFerramenta = $_GET['id'] ?? 0;
 
         $ferramentaModel = new Ferramenta();
-        $ferramenta = $ferramentaModel->buscarPorId($idFerramenta);
+        $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
 
         if ($ferramenta) {
             require_once __DIR__ . '/../View/reserva_formulario.php';
@@ -124,7 +124,7 @@ class ReservaController {
 
         // 3. Busca o preço da ferramenta
         $ferramentaModel = new Ferramenta();
-        $ferramenta = $ferramentaModel->buscarPorId($idFerramenta);
+        $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
         $valorReserva = $ferramenta['precoFerramenta']; // (Aqui podemos calcular o total de dias)
 
         $reserva = new Reserva();
