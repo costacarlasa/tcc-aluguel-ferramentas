@@ -16,6 +16,26 @@ class Reserva {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function listarMinhasReservas($idCliente) {
+        $conexaoBD = new ConexaoBD();
+        $pdo = $conexaoBD->conectar();
+
+        $sql = "SELECT r.*, f.nomeFerramenta AS nome_ferramenta, 
+                        r.dataReserva AS data_inicio, 
+                        r.dataDevolucaoReserva AS data_fim, 
+                        r.statusReserva AS status_reserva
+                FROM reserva r
+                JOIN ferramenta f ON r.idFerramenta = f.idFerramenta
+                WHERE r.idUsuario = :idCliente
+                ORDER BY r.dataReserva DESC";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':idCliente', $idCliente, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function buscarPorId($id) {
         $conexaoBD = new ConexaoBD();
         $pdo = $conexaoBD->conectar();
