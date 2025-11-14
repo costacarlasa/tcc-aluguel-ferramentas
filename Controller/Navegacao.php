@@ -36,14 +36,19 @@ elseif (isset($_POST['acao_ferramenta_excluir'])) {
 // ROTA 6: EDITAR RESERVA
 elseif (isset($_POST['acao_reserva_editar'])) {
     $controller = new ReservaController();
-    $controller->processarEdicao(); // (Vamos supor o nome)
+    $controller->processarEdicao(); 
 }
 // ROTA 7: EXCLUIR RESERVA
 elseif (isset($_POST['acao_reserva_excluir'])) {
     $controller = new ReservaController();
-    $controller->processarExclusao(); // (Vamos supor o nome)
+    $controller->processarExclusao(); 
 }
 
+// ROTA 8: CADASTRAR RESERVA - CLIENTE
+elseif (isset($_POST['acao_cadastrar_reserva'])) {
+    $controller = new ReservaController();
+    $controller->processarCadastroReserva();
+}
 // ROTA PADRÃO: NAVEGAÇÃO (VIA GET) - Se nenhum botão foi clicado, o usuário está apenas navegando por links
 else {
     $pagina = $_GET['pagina'] ?? 'login';     
@@ -78,29 +83,49 @@ else {
             $controller->listarFerramentas();
             break;
 
-        case 'listar_reservas': //rota para exibir lista de reservas cadastradas no site
-            $controller = new ReservaController();
-            $controller->listarReservas();
-            break;    
-
         case 'editar_ferramentas': //rota para fazer alterações no cadastro das ferramentas
             $controller = new FerramentaController();
             $controller->exibirFormularioEdicao(); 
             break;
 
-        case 'editar_reserva': //rota para fazer alterações no cadastro das reservas
-            $controller = new ReservaController();
-            $controller->exibirFormularioEdicao();
-            break;
-        
         case 'excluir_ferramentas': //rota para excluir ferramenta
             $controller = new FerramentaController();
             $controller->exibirConfirmacaoExclusao();
             break;   
-            
+
+        case 'listar_reservas': //rota para exibir lista de reservas cadastradas no site
+            $controller = new ReservaController();
+            $controller->listarReservas();
+            break;    
+
+        case 'editar_reserva': //rota para fazer alterações no cadastro das reservas
+            $controller = new ReservaController();
+            $controller->exibirFormularioEdicao();
+            break;
+                    
         case 'excluir_reserva': //rota para excluir reserva
             $controller = new ReservaController();
             $controller->exibirConfirmacaoExclusao();
+            break;
+
+        case 'acessoCliente': // Rota para a Vitrine
+            $controller = new FerramentaController();
+            $controller->listarFerramentasParaVitrine();
+            break;
+
+        case 'detalhe_ferramenta': // Rota para os Detalhes
+            $controller = new FerramentaController();
+            $controller->exibirDetalhes();
+            break;
+
+        case 'reservar_ferramenta': // Rota para o Formulário de Datas
+            $controller = new ReservaController();
+            $controller->exibirFormularioReserva();
+            break;
+
+        case 'minhas_reservas': // Rota para o Histórico
+            $controller = new ReservaController();
+            $controller->listarMinhasReservas(); // (Precisamos criar este método)
             break;
 
         // --- Rota Padrão ---

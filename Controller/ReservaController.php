@@ -143,5 +143,18 @@ class ReservaController {
         }
         exit;
     }
+
+    public function listarMinhasReservas() {
+        if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] != 'cliente') {
+            header("Location: index.php?pagina=login&status=faca_login");
+            exit;
+        }
+
+        $idCliente = $_SESSION['id_usuario'];
+        $reservaModel = new Reserva();
+        $reservas = $reservaModel->listarMinhasReservas($idCliente);
+
+        require_once __DIR__ . '/../View/cliente/minhas_reservas.php';
+    }
 }
 ?>

@@ -45,7 +45,7 @@ class UsuarioController {
             if ($dadosUsuario['tipoUsuario'] == 'administrador') {
                 header("Location: index.php?pagina=acessoAdmin");
             } else {
-                header("Location: index.php");
+                header("Location: index.php?pagina=acessoCliente");
             }
             exit;
         } else {
