@@ -16,6 +16,11 @@ class FerramentaController {
         require_once __DIR__ . '/../View/admin/listar_ferramentas.php';
     }
 
+    public function listarFerramentasCliente() {
+        $ferramentaModel = new Ferramenta();
+        return $ferramentaModel->listarFerramentas();
+    }
+
     public function exibirFormularioEdicao() {
         $id = $_GET['id'] ?? 0;
         $ferramentaModel = new Ferramenta();

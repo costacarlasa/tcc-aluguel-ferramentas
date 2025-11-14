@@ -5,11 +5,10 @@ class UsuarioController {
 
     public function processarCadastro() {
 
-        if ($_POST['senha_usuario'] !== $_POST['confirmar_senha']) { //validar senha
+        if ($_POST['senha_usuario'] !== $_POST['confirmar_senha']) { 
             header("Location: View/feedbackCadastroUsuario.php?status=erro_senha");
             exit;
         }
-
 
         $usuario = new Usuario();
         $usuario->setNome($_POST['nome_usuario']);
@@ -32,25 +31,39 @@ class UsuarioController {
     }
 
     public function processarLogin() {
+
         $email = $_POST['email_usuario'];
         $senha = $_POST['senha_usuario'];
         
         $usuarioModel = new Usuario();
         $dadosUsuario = $usuarioModel->verificarLogin($email, $senha);
+
         if ($dadosUsuario) {
+
+            // SESSÃO
             $_SESSION['id_usuario'] = $dadosUsuario['idUsuario'];
             $_SESSION['nome_usuario'] = $dadosUsuario['nomeUsuario'];
             $_SESSION['tipo_usuario'] = $dadosUsuario['tipoUsuario'];
 
+            // 🔹 ADMIN vai para painel admin
             if ($dadosUsuario['tipoUsuario'] == 'administrador') {
-                header("Location: index.php?pagina=acessoAdmin");
-            } else {
-                header("Location: index.php");
+                header("Location: index.php?pagina=painel_admin");
+                exit;
             }
+
+            // 🔹 CLIENTE vai para a vitrine
+            if ($dadosUsuario['tipoUsuario'] == 'cliente') {
+                header("Location: index.php?pagina=vitrine");
+                exit;
+            }
+
+            // fallback
+            header("Location: index.php");
             exit;
+
         } else {
             header("Location: index.php?pagina=login&status=login_invalido");
-            exit; 
+            exit;
         }
     }
 }

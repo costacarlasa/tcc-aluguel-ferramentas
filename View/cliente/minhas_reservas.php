@@ -1,65 +1,50 @@
 <?php
-// Inicia a sessão
 session_start();
 
-// Verifica se o usuário está logado
-if (!isset($_SESSION['id_usuario'])) {
-    header('Location: ../login.php');
+// Impede acesso sem login
+if (!isset($_SESSION['usuario_id']) || $_SESSION['tipoUsuario'] !== 'cliente') {
+    header("Location: index.php?pagina=login");
     exit;
 }
 
-// Inclui o Model de Reserva
 require_once __DIR__ . '/../../Model/Reserva.php';
 
-// ID do cliente logado
-$idCliente = $_SESSION['id_usuario'];
-
-// Busca as reservas do cliente usando método estático
+$idCliente = $_SESSION['usuario_id'];
 $reservas = Reserva::listarMinhasReservas($idCliente);
-
-// Inclui o menu do cliente
-include_once __DIR__ . '/../../_partials/menu_cliente.php';
 ?>
 
-<div class="container">
-    <h2>Minhas Reservas</h2>
+<h2>Minhas Reservas</h2>
 
-    <?php if (!empty($reservas)) : ?>
-        <table border="1" cellpadding="8" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Ferramenta</th>
-                    <th>Data Início</th>
-                    <th>Data Fim</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($reservas as $reserva) : ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($reserva['nome_ferramenta']); ?></td>
-                        <td><?php echo htmlspecialchars($reserva['data_inicio']); ?></td>
-                        <td><?php echo htmlspecialchars($reserva['data_fim']); ?></td>
-                        <td><?php echo htmlspecialchars($reserva['status_reserva']); ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php else : ?>
-        <p>Você ainda não possui reservas registradas.</p>
-    <?php endif; ?>
-</div>
+<?php if (empty($reservas)): ?>
+    <p>Você ainda não possui reservas cadastradas.</p>
 
-<?php
-// Rodapé
-include_once __DIR__ . '/../../_partials/footer.php';
-?>
-<style>
-.container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
+<?php else: ?>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ferramenta</th>
+            <th>Data Início</th>
+            <th>Data Fim</th>
+            <th>Status</th>
+            <th>Pagamento</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <?php foreach ($reservas as $reserva): ?>
+            <tr>
+                <td><?= $reserva['idReserva'] ?></td>
+                <td><?= $reserva['nome_ferramenta'] ?></td>
+                <td><?= date('d/m/Y', strtotime($reserva['data_inicio'])) ?></td>
+                <td><?= date('d/m/Y', strtotime($reserva['data_fim'])) ?></td>
+                <td><?= ucfirst($reserva['status_reserva']) ?></td>
+                <td><?= ucfirst($reserva['statusPagamentoReserva']) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+
+</table>
+
+<?php endif; ?>

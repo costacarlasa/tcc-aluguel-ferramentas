@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 require_once __DIR__ . '/UsuarioController.php';
 require_once __DIR__ . '/FerramentaController.php';
 require_once __DIR__ . '/ReservaController.php';
