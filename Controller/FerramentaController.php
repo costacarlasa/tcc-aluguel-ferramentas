@@ -16,6 +16,11 @@ class FerramentaController {
         require_once __DIR__ . '/../View/admin/listar_ferramentas.php';
     }
 
+    public function listarFerramentasCliente() {
+        $ferramentaModel = new Ferramenta();
+        return $ferramentaModel->listarFerramentas();
+    }
+
     public function exibirFormularioEdicao() {
         $id = $_GET['id'] ?? 0;
         $ferramentaModel = new Ferramenta();
@@ -106,29 +111,9 @@ class FerramentaController {
         exit;
     }
 
-    // ==========================================================
-    // MÉTODOS DO CLIENTE
-    // ==========================================================
-    public function listarFerramentasParaVitrine() {
-        $ferramentaModel = new Ferramenta();
-        $ferramentas = $ferramentaModel->listarTodas(); //
-
-        require_once __DIR__ . '/../View/cliente/acessoCliente.php';
-    }
-
-    public function exibirDetalhes() {
-        $id = $_GET['id'] ?? 0;
-        $ferramentaModel = new Ferramenta();
-        $ferramenta = $ferramentaModel->buscarPorId($id);
-
-        if ($ferramenta) {
-            require_once __DIR__ . '/../View/cliente/detalhe_ferramentas.php';
-        } else {
-            header("Location: index.php?pagina=acessoCliente&status=nao_encontrado");
-            exit;
-        }
-    }
-
+    /**
+     * Método auxiliar privado para lidar com upload de arquivos
+     */
     private function processarUploadFoto() {
         if (isset($_FILES['foto_ferramenta']) && $_FILES['foto_ferramenta']['error'] == 0) {
             

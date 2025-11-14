@@ -1,71 +1,50 @@
 <?php
-require_once __DIR__ . '/../../Controller/verificaCliente.php';
+session_start();
 
-?>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Minhas Reservas</title>
-    <link rel="stylesheet" href="View/admin/css/admin.css"> 
-</head>
-<body>
+// Impede acesso sem login
+if (!isset($_SESSION['usuario_id']) || $_SESSION['tipoUsuario'] !== 'cliente') {
+    header("Location: index.php?pagina=login");
+    exit;
+}
 
-<?php 
-    require_once __DIR__ . '/../../_partials/menu_cliente.php'; 
+require_once __DIR__ . '/../../Model/Reserva.php';
+
+$idCliente = $_SESSION['usuario_id'];
+$reservas = Reserva::listarMinhasReservas($idCliente);
 ?>
 
-<main>
-    <h2>Minhas Reservas</h2>
-    <p>Olá, <?= htmlspecialchars($_SESSION['nome_usuario']) ?>! Este é o seu histórico de aluguéis.</p>
+<h2>Minhas Reservas</h2>
 
-    <?php if (isset($_GET['status']) && $_GET['status'] == 'sucesso_reserva'): ?>
-        <p style="color: green; border: 1px solid green; padding: 10px;">
-            Reserva confirmada com sucesso!
-        </p>
-    <?php endif; ?>
+<?php if (empty($reservas)): ?>
+    <p>Você ainda não possui reservas cadastradas.</p>
 
-    <table border="1">
-        <thead>
+<?php else: ?>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ferramenta</th>
+            <th>Data Início</th>
+            <th>Data Fim</th>
+            <th>Status</th>
+            <th>Pagamento</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <?php foreach ($reservas as $reserva): ?>
             <tr>
-                <th>Ferramenta</th>
-                <th>Foto</th>
-                <th>Período da Reserva</th>
-                <th>Valor Cobrado</th>
-                <th>Status do Pagamento</th>
-                <th>Status da Reserva</th>
+                <td><?= $reserva['idReserva'] ?></td>
+                <td><?= $reserva['nome_ferramenta'] ?></td>
+                <td><?= date('d/m/Y', strtotime($reserva['data_inicio'])) ?></td>
+                <td><?= date('d/m/Y', strtotime($reserva['data_fim'])) ?></td>
+                <td><?= ucfirst($reserva['status_reserva']) ?></td>
+                <td><?= ucfirst($reserva['statusPagamentoReserva']) ?></td>
             </tr>
-        </thead>
-        <tbody>
-            <?php
-            if (isset($reservas) && !empty($reservas)):
-                foreach ($reservas as $r):
-            ?>
-                <tr>
-                    <td><?= htmlspecialchars($r['nome_ferramenta']) ?></td>
-                    <td>
-                        <?php if (!empty($r['fotoFerramenta'])): ?>
-                            <img src="Img/<?= htmlspecialchars($r['fotoFerramenta']) ?>" alt="<?= htmlspecialchars($r['nome_ferramenta']) ?>" width="100">
-                        <?php else: ?>
-                            Sem Foto
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($r['dataReserva']) ?> a <?= htmlspecialchars($r['dataDevolucaoReserva']) ?></td>
-                    <td>R$ <?= number_format($r['valorReserva'], 2, ',', '.') ?></td>
-                    <td><?= htmlspecialchars(ucfirst($r['statusPagamentoReserva'])) ?></td>
-                    <td><?= htmlspecialchars(ucfirst($r['statusReserva'])) ?></td>
-                </tr>
-            <?php
-                endforeach;
-            else:
-            ?>
-                <tr>
-                    <td colspan="6">Você ainda não fez nenhuma reserva.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-</main>
+        <?php endforeach; ?>
+    </tbody>
 
-</body>
-</html>
+</table>
+
+<?php endif; ?>
