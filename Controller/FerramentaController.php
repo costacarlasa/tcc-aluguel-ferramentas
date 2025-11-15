@@ -21,6 +21,19 @@ class FerramentaController {
         return $ferramentaModel->listarFerramentas();
     }
 
+     public function exibirDetalhes() {
+        $id = $_GET['id'] ?? 0;
+        $ferramentaModel = new Ferramenta();        
+        $ferramenta = $ferramentaModel->buscarFerramentaPorId($id); 
+
+        if ($ferramenta) {
+            require_once __DIR__ . '/../View/cliente/detalhe_ferramentas.php';
+        } else {
+            header("Location: index.php?pagina=acessoCliente&status=nao_encontrado");
+            exit;
+        }
+    }
+
     public function exibirFormularioEdicao() {
         $id = $_GET['id'] ?? 0;
         $ferramentaModel = new Ferramenta();
