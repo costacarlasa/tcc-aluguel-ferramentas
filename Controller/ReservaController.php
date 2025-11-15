@@ -84,7 +84,7 @@ class ReservaController {
     public function exibirFormularioReserva() {
         $idFerramenta = $_GET['id'] ?? 0;
         $ferramentaModel = new Ferramenta();
-        $ferramenta = $ferramentaModel->buscarPorId($idFerramenta);
+        $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
 
         if ($ferramenta) {
             require_once __DIR__ . '/../View/reserva_formulario.php';
