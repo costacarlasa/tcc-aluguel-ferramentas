@@ -109,5 +109,98 @@ class UsuarioController {
         }
         exit;
     }
+
+    public function listarFuncionarios() {
+        $usuarioModel = new Usuario();        
+        $usuarios = $usuarioModel->listarTodosUsuarios(); 
+        require_once __DIR__ . '/../View/admin/listar_funcionarios.php';
+    }
+
+    public function processarCadastroFuncionario() {
+        if ($_POST['senha_usuario'] !== $_POST['confirmar_senha']) { 
+            header("Location: index.php?pagina=cadastrar_funcionario&status=erro_senha");
+            exit;
+        }
+
+        $usuario = new Usuario();
+        $usuario->setNome($_POST['nome_usuario']);
+        $usuario->setEmail($_POST['email_usuario']);
+        $usuario->setTelefone($_POST['telefone_usuario']);
+        $usuario->setSenha($_POST['senha_usuario']);
+        $usuario->setEndereco($_POST['endereco_usuario'] ?? '');
+        $usuario->setCategoriaCliente('PF'); 
+        $usuario->setCpfCnpj($_POST['cpf_cnpj_usuario']);
+        $usuario->setTipoUsuario('administrador');
+
+        $sucesso = $usuario->cadastrar(); //
+
+        if ($sucesso) {
+            header("Location: index.php?pagina=listar_funcionarios&status=sucesso_cadastro");
+        } else {
+            header("Location: index.php?pagina=cadastrar_funcionario&status=erro_cadastro");
+        }
+        exit;
+    }
+
+    public function exibirFormularioEdicaoUsuario() {
+        $id = $_GET['id'] ?? 0;        
+        $usuarioModel = new Usuario();
+        $usuario = $usuarioModel->buscarPorId($id);
+
+        if ($usuario) {
+            require_once __DIR__ . '/../View/admin/editar_usuario.php';
+        } else {
+            header("Location: index.php?pagina=listar_funcionarios&status=erro_nao_encontrado");
+            exit;
+        }
+    }
+
+    public function processarEdicaoUsuario() {
+        $usuario = new Usuario();
+        $usuario->setId($_POST['id_usuario']);
+        $usuario->setNome($_POST['nome_usuario']);
+        $usuario->setEmail($_POST['email_usuario']);
+        $usuario->setTelefone($_POST['telefone_usuario']);
+        $usuario->setEndereco($_POST['endereco_usuario']);
+        $usuario->setTipoUsuario($_POST['tipo_usuario']);
+        $usuario->setCategoriaCliente($_POST['categoria_cliente']);
+        $usuario->setCpfCnpj($_POST['cpf_cnpj_usuario']);
+
+        $sucesso = $usuario->atualizarUsuarioAdmin(); 
+
+        if ($sucesso) {
+            header("Location: index.php?pagina=listar_funcionarios&status=sucesso_edicao");
+        } else {
+            header("Location: index.php?pagina=listar_funcionarios&status=erro_edicao");
+        }
+        exit;
+    }
+
+    public function exibirConfirmacaoExclusaoUsuario() {
+        $id = $_GET['id'] ?? 0;
+        $usuarioModel = new Usuario();
+        $usuario = $usuarioModel->buscarPorId($id);
+
+        if ($usuario) {
+            require_once __DIR__ . '/../View/admin/excluir_usuario.php';
+        } else {
+            header("Location: index.php?pagina=listar_funcionarios&status=erro_nao_encontrado");
+            exit;
+        }
+    }
+
+    public function processarExclusaoUsuario() {
+        $id = $_POST['id_usuario'];
+        $usuarioModel = new Usuario();
+        
+        $sucesso = $usuarioModel->excluirUsuario($id); 
+
+        if ($sucesso) {
+            header("Location: index.php?pagina=listar_funcionarios&status=sucesso_exclusao");
+        } else {
+            header("Location: index.php?pagina=listar_funcionarios&status=erro_exclusao_fk");
+        }
+        exit;
+    }
 }
 ?>

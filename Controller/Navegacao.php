@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/UsuarioController.php';
 require_once __DIR__ . '/FerramentaController.php';
 require_once __DIR__ . '/ReservaController.php';
@@ -10,6 +9,7 @@ if (isset($_POST['acao_cadastrar'])) {
     $controller = new UsuarioController();
     $controller->processarCadastro(); 
 } 
+
 elseif (isset($_POST['acao_login'])) {
     $controller = new UsuarioController();
     $controller->processarLogin();
@@ -19,10 +19,12 @@ elseif (isset($_POST['acao_cadastrar_ferramenta'])) {
     $controller = new FerramentaController();
     $controller->processarCadastro();
 }
+
 elseif (isset($_POST['acao_editar_ferramenta'])) {
     $controller = new FerramentaController();
     $controller->processarEdicao();
 }
+
 elseif (isset($_POST['acao_excluir_ferramenta'])) {
     $controller = new FerramentaController();
     $controller->processarExclusao();
@@ -32,6 +34,7 @@ elseif (isset($_POST['acao_editar_reserva'])) {
     $controller = new ReservaController();
     $controller->processarEdicao();
 }
+
 elseif (isset($_POST['acao_excluir_reserva'])) {
     $controller = new ReservaController();
     $controller->processarExclusao();
@@ -51,6 +54,22 @@ elseif (isset($_POST['acao_editar_perfil'])) {
     $controller = new UsuarioController();
     $controller->processarEdicaoPerfil();
 }
+
+elseif (isset($_POST['acao_cadastrar_funcionario'])) {
+    $controller = new UsuarioController();
+    $controller->processarCadastroFuncionario();
+}
+
+elseif (isset($_POST['acao_editar_usuario'])) {
+    $controller = new UsuarioController();
+    $controller->processarEdicaoUsuario();
+}
+
+elseif (isset($_POST['acao_excluir_usuario'])) {
+    $controller = new UsuarioController();
+    $controller->processarExclusaoUsuario();
+}
+
 
 // === ROTAS GET (Links/Páginas) ===
 else {
@@ -94,8 +113,8 @@ else {
         case 'excluir_ferramentas':
             $controller = new FerramentaController();
             $controller->exibirConfirmacaoExclusao();
-            break;   
-        
+            break;  
+
         case 'listar_reservas':
             $controller = new ReservaController();
             $controller->listarReservas();
@@ -111,35 +130,53 @@ else {
             $controller->exibirConfirmacaoExclusao();
             break;
 
-        // --- TAREFA 3.4 (Cliente - Sprint 3) ---
-        case 'acessoCliente': // Rota para a Vitrine
+        case 'listar_funcionarios': 
+            $controller = new UsuarioController();
+            $controller->listarFuncionarios(); 
+            break;
+
+        case 'cadastrar_funcionario':
+            include_once __DIR__ . '/../View/admin/cadastrar_funcionario.php'; 
+            break;
+
+        case 'editar_usuario':
+            $controller = new UsuarioController();
+            $controller->exibirFormularioEdicaoUsuario(); //
+            break;
+
+        case 'excluir_usuario':
+            $controller = new UsuarioController();
+            $controller->exibirConfirmacaoExclusaoUsuario(); //
+            break;
+
+        case 'acessoCliente': 
             $controller = new FerramentaController();
             $controller->listarFerramentasParaVitrine();
             break;
 
-        case 'detalhe_ferramenta': // Rota para os Detalhes
+        case 'detalhe_ferramenta': 
             $controller = new FerramentaController();
             $controller->exibirDetalhes();
             break;
 
-        case 'reservar_ferramenta': // Rota para o Formulário de Datas
+        case 'reservar_ferramenta': 
             $controller = new ReservaController();
             $controller->exibirFormularioReserva();
             break;
-            
-        case 'minhas_reservas': // Rota para o Histórico
+
+        case 'minhas_reservas': 
             $controller = new ReservaController();
             $controller->listarMinhasReservas();
             break;
 
-        case 'confirmar_reserva': //Rota para confirmar reserva
+        case 'confirmar_reserva': 
             include_once __DIR__ . '/../View/cliente/confirmarReserva.php';
             break;
 
         case 'feedback_reserva':
             include_once __DIR__ . '/../View/cliente/feedbackReservaCliente.php';
             break;
-
+            
         case 'meu_perfil':
             $controller = new UsuarioController();
             $controller->exibirMeuPerfil();

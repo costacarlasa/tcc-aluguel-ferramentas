@@ -94,8 +94,11 @@ class Usuario {
         $conexaoBD = new ConexaoBD(); 
         $pdo = $conexaoBD->conectar();
 
-        $this->tipoUsuario = 'cliente'; 
-        $this->nivelAcessoUsuario = 'basico';
+        if (empty($this->tipoUsuario)) {
+            $this->tipoUsuario = 'cliente';
+        }
+        
+        $this->nivelAcessoUsuario = ($this->tipoUsuario == 'administrador') ? 'total' : 'basico';
         
         $senhaCriptografada = password_hash($this->senha, PASSWORD_DEFAULT);
 
@@ -118,6 +121,7 @@ class Usuario {
                             :cpf_cnpjUsuario, 
                             :telefoneUsuario, 
                             :enderecoUsuario)";
+
 
             $stmt = $pdo->prepare($sql);
 
@@ -214,6 +218,74 @@ class Usuario {
 
         } catch (PDOException $e) {
             error_log("Erro ao atualizar perfil: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function listarTodosUsuarios() {
+        $conexaoBD = new ConexaoBD(); 
+        $pdo = $conexaoBD->conectar();
+
+        try {
+            $sql = "SELECT idUsuario, nomeUsuario, emailUsuario, tipoUsuario, telefoneUsuario 
+                    FROM usuario 
+                    ORDER BY nomeUsuario ASC";
+            
+            $stmt = $pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Erro ao listar todos os usuários: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function atualizarUsuarioAdmin() {
+        $conexaoBD = new ConexaoBD(); 
+        $pdo = $conexaoBD->conectar();
+
+        try {
+            $sql = "UPDATE usuario SET 
+                        nomeUsuario = :nomeUsuario, 
+                        emailUsuario = :emailUsuario,
+                        telefoneUsuario = :telefoneUsuario, 
+                        enderecoUsuario = :enderecoUsuario,
+                        tipoUsuario = :tipoUsuario,
+                        categoriaCliente = :categoriaCliente,
+                        cpf_cnpjUsuario = :cpf_cnpjUsuario
+                    WHERE idUsuario = :idUsuario";
+
+            $stmt = $pdo->prepare($sql);
+
+            $stmt->bindParam(':nomeUsuario', $this->nome);
+            $stmt->bindParam(':emailUsuario', $this->email);
+            $stmt->bindParam(':telefoneUsuario', $this->telefone);
+            $stmt->bindParam(':enderecoUsuario', $this->endereco);
+            $stmt->bindParam(':tipoUsuario', $this->tipoUsuario);
+            $stmt->bindParam(':categoriaCliente', $this->categoriaCliente);
+            $stmt->bindParam(':cpf_cnpjUsuario', $this->cpfCnpj);
+            $stmt->bindParam(':idUsuario', $this->id, PDO::PARAM_INT);
+            
+            return $stmt->execute();
+
+        } catch (PDOException $e) {
+            error_log("Erro ao atualizar usuário (Admin): " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function excluirUsuario($id) {
+        $conexaoBD = new ConexaoBD(); 
+        $pdo = $conexaoBD->conectar();
+
+        try {
+            $sql = "DELETE FROM usuario WHERE idUsuario = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute();
+
+        } catch (PDOException $e) {
+            error_log("Erro ao excluir usuário: " . $e->getMessage());
             return false;
         }
     }
