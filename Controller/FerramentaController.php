@@ -13,7 +13,7 @@ class FerramentaController {
         $ferramentaModel = new Ferramenta();
         $ferramentas = $ferramentaModel->listarFerramentas();
 
-        require_once __DIR__ . '/../View/cliente/listar_ferrametas_vitrine.php';
+        require_once __DIR__ . '/../View/cliente/acessoCliente.php';
     }
 
     public function listarFerramentasCliente() {
