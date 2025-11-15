@@ -14,6 +14,16 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
     require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
 ?>
 <main>
+    <?php if (isset($_GET['status'])): ?>
+        <?php if ($_GET['status'] == 'sucesso_edicao'): ?>
+            <p style="color: green; border: 1px solid green; padding: 10px;">Reserva atualizada com sucesso!</p>
+        <?php elseif ($_GET['status'] == 'sucesso_exclusao'): ?>
+            <p style="color: green; border: 1px solid green; padding: 10px;">Reserva excluída com sucesso!</p>
+        <?php elseif (str_starts_with($_GET['status'], 'erro_')): ?>
+            <p style="color: red; border: 1px solid red; padding: 10px;">Ocorreu um erro ao processar a sua solicitação.</p>
+        <?php endif; ?>
+    <?php endif; ?>
+
     <h1>Gerenciar Reservas</h1>
     <table>
         <thead>
@@ -36,14 +46,13 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
                     <td><?= htmlspecialchars($r['idReserva']) ?></td>
                     <td><?= htmlspecialchars($r['nome_usuario']) ?></td>
                     <td><?= htmlspecialchars($r['nome_ferramenta']) ?></td>
-                    <td><?= htmlspecialchars($r['dataReserva']) ?> a <?= htmlspecialchars($r['dataDevolucaoReserva']) ?></td>
+                    <td><?= date('d/m/Y', strtotime($r['dataReserva'])) ?> a <?= date('d/m/Y', strtotime($r['dataDevolucaoReserva'])) ?></td>
                     <td><?= htmlspecialchars(ucfirst($r['statusReserva'])) ?></td>
                     <td>R$ <?= number_format($r['valorReserva'], 2, ',', '.') ?></td>
                     <td><?= htmlspecialchars(ucfirst($r['statusPagamentoReserva'])) ?></td>
                     <td>
-                        <a href="editar_reserva.php?id=<?= $r['idReserva'] ?>">Editar</a> |
-                        <a href="excluir_reserva.php?id=<?= $r['idReserva'] ?>" 
-                            onclick="return confirm('Tem certeza que deseja excluir esta reserva?')">Excluir</a>
+                        <a href="?pagina=editar_reserva&id=<?= $r['idReserva'] ?>">Editar</a> 
+                        <a href="?pagina=excluir_reserva&id=<?= $r['idReserva'] ?>">Excluir</a>
                     </td>
                 </tr>
             <?php endforeach; else: ?>
