@@ -5,6 +5,12 @@ class FerramentaController {
     // ==========================================================
     // MÉTODOS GET (Chamados pelo Navegacao.php para MOSTRAR páginas)
     // ==========================================================
+    public function listarFerramentas() {
+        $ferramentaModel = new Ferramenta();
+        $ferramentas = $ferramentaModel->listarFerramentas(); 
+        require_once __DIR__ . '/../View/admin/listar_ferramentas.php';
+    }
+    
     public function listarFerramentasParaVitrine() {
         $ferramentaModel = new Ferramenta();
         $ferramentas = $ferramentaModel->listarFerramentas();

@@ -47,6 +47,11 @@ elseif (isset($_POST['acao_cadastrar_reserva'])) {
     $controller->processarCadastroReserva();
 }
 
+elseif (isset($_POST['acao_editar_perfil'])) {
+    $controller = new UsuarioController();
+    $controller->processarEdicaoPerfil();
+}
+
 // === ROTAS GET (Links/Páginas) ===
 else {
     $pagina = $_GET['pagina'] ?? 'login';     
@@ -133,6 +138,11 @@ else {
 
         case 'feedback_reserva':
             include_once __DIR__ . '/../View/cliente/feedbackReservaCliente.php';
+            break;
+
+        case 'meu_perfil':
+            $controller = new UsuarioController();
+            $controller->exibirMeuPerfil();
             break;
             
         // --- Rota Padrão ---

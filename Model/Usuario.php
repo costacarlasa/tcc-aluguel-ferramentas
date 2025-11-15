@@ -172,5 +172,50 @@ class Usuario {
             return false;
         }
     }
+
+    public function buscarPorId($id) {
+        $conexaoBD = new ConexaoBD(); 
+        $pdo = $conexaoBD->conectar();
+
+        try {
+            $sql = "SELECT * FROM usuario WHERE idUsuario = :id LIMIT 1";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Erro ao buscar usuário por ID: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function atualizarPerfil() {
+        $conexaoBD = new ConexaoBD(); 
+        $pdo = $conexaoBD->conectar();
+
+        try {
+            $sql = "UPDATE usuario SET 
+                        nomeUsuario = :nomeUsuario, 
+                        telefoneUsuario = :telefoneUsuario, 
+                        enderecoUsuario = :enderecoUsuario
+                    WHERE idUsuario = :idUsuario";
+
+            $stmt = $pdo->prepare($sql);
+
+            // Usa $this->... (que o Controller vai definir)
+            $stmt->bindParam(':nomeUsuario', $this->nome);
+            $stmt->bindParam(':telefoneUsuario', $this->telefone);
+            $stmt->bindParam(':enderecoUsuario', $this->endereco);
+            $stmt->bindParam(':idUsuario', $this->id, PDO::PARAM_INT);
+            
+            return $stmt->execute();
+
+        } catch (PDOException $e) {
+            error_log("Erro ao atualizar perfil: " . $e->getMessage());
+            return false;
+        }
+    }
 }
 ?>
