@@ -36,10 +36,10 @@ Valores do atributo `name=""` nos formulários HTML.
 * `telefone_usuario`: Campo de telefone.
 * `endereco_usuario`: Campo de endereço.
 * `categoria_cliente`: Campo de rádio (PF ou PJ).
-* `cpf_cnpj`: Campo de CPF/CNPJ.
+* `cpf_cnpj`: Campo de CPF/CNPJ (corrigido de `cpf_cnpj` para `cpf_cnpj_usuario`).
 
 ### Sprint 2: CRUD de Ferramentas (Admin)
-* `acao_cadastrar_ferramenta`: Botão de envio do `cadastrar_ferramenta.php`.
+* `acao_cadastrar_ferramenta`: Botão de envio do `cadastrar_ferramentas.php`.
 * `acao_editar_ferramenta`: Botão de envio do `editar_ferramentas.php`.
 * `acao_excluir_ferramenta`: Botão de envio do `excluir_ferramentas.php`.
 * `id_ferramenta`: Campo `hidden` para identificar a ferramenta na edição/exclusão.
@@ -47,7 +47,23 @@ Valores do atributo `name=""` nos formulários HTML.
 * `modelo_ferramenta`: Campo "Modelo" da ferramenta.
 * `categoria_ferramenta`: Campo "Categoria" da ferramenta.
 * `preco_ferramenta`: Campo "Preço" da ferramenta.
-* `disponibilidade_ferramenta`: Campo `<select>` de disponibilidade (valores: `disponivel`, `inativa`, `reservada`).
+* `disponibilidade_ferramenta`: Campo `<select>` de disponibilidade.
+
+### Sprint 3: Fluxo de Reserva (Cliente)
+* `acao_simular_reserva`: Botão de envio do `reserva_formulario.php`.
+* `data_reserva`: Campo "Data de Retirada".
+* `data_devolucao`: Campo "Data de Devolução".
+* `acao_cadastrar_reserva`: Botão de envio do `confirmarReserva.php`.
+
+### Sprint 4: Gerenciamento (Admin & Perfil)
+* `acao_editar_reserva`: Botão de envio do `editar_reserva.php`.
+* `id_reserva`: Campo `hidden` para identificar a reserva na edição/exclusão.
+* `id_usuario`: Campo `hidden` (usado na edição de reserva).
+* `status_reserva`: Campo `<select>` de status da reserva.
+* `status_pagamento`: Campo `<select>` de status do pagamento.
+* `acao_excluir_reserva`: Botão de envio do `excluir_reserva.php`.
+* `acao_editar_perfil`: Botão de envio do `meu_perfil.php`.
+* `(nome_usuario, telefone_usuario, endereco_usuario)`: Reutilizados do Sprint 1 para o formulário `meu_perfil.php`.
 
 ---
 
@@ -75,3 +91,4 @@ Chaves criadas no `UsuarioController.php` após o login para identificar o usuá
 * `id_usuario`: O ID numérico do usuário, vindo do banco de dados.
 * `nome_usuario`: O nome do usuário logado (para saudação).
 * `tipo_usuario`: O tipo de acesso ('cliente' ou 'administrador'), usado para permissões.
+* `reserva_simulacao`: Array (temporário) que armazena os dados da reserva entre a simulação (`acao_simular_reserva`) e a confirmação (`acao_cadastrar_reserva`).

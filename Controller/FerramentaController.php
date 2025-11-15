@@ -17,6 +17,7 @@ class FerramentaController {
 
         require_once __DIR__ . '/../View/cliente/acessoCliente.php';
     }
+    
 
     public function listarFerramentasCliente() {
         $ferramentaModel = new Ferramenta();
