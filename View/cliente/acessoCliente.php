@@ -1,20 +1,6 @@
 <?php
-// TAREFA 3.3: Criar View/cliente/acessoCliente.php
-
-// 1. CHAMA O SEGURANÇA (Garante que só clientes logados vejam)
 require_once __DIR__ . '/../../Controller/verificaCliente.php';
 
-/*
- * NOTA DE ARQUITETURA:
- * A variável '$ferramentas' já foi "alimentada" pelo
- * 'FerramentaController->listarFerramentasParaVitrine()'
- * (chamado pelo 'Navegacao.php').
- *
- * Esta View NÃO DEVE chamar o Controller.
- */
-
-// BUG 1 CORRIGIDO: Removido session_start() (desnecessário)
-// BUG 3 CORRIGIDO: Removido o bloco que chamava 'new FerramentaController()'
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,7 +9,6 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
     <title>Vitrine de Ferramentas</title>
     <link rel="stylesheet" href="View/admin/css/admin.css"> 
     <style>
-        /* Estilo simples para os 'cards' da vitrine */
         .vitrine-container {
             display: flex;
             flex-wrap: wrap;
@@ -59,17 +44,16 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 <body>
 
 <?php 
-    // BUG 2 CORRIGIDO: Path (de 'partials' para '_partials')
     require_once __DIR__ . '/../../_partials/menu_cliente.php'; 
 ?>
 
 <main>
     <h2>Vitrine de Ferramentas</h2>
-    <p>Olá, <?= htmlspecialchars($_SESSION['nome_usuario']) ?>! Escolha sua ferramenta.</p>
+    <p>Olá, <?= htmlspecialchars($_SESSION['nome_usuario']) ?>!</p>
+    <p>Escolha sua ferramenta.</p>
 
     <div class="vitrine-container">
         <?php
-        // Loop para exibir os cards
         if (isset($ferramentas) && !empty($ferramentas)):
             foreach ($ferramentas as $ferramenta):
         ?>

@@ -1,10 +1,6 @@
 <?php
 require_once __DIR__ . '/../Model/Ferramenta.php';
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
 class FerramentaController {
     // ==========================================================
     // MÉTODOS GET (Chamados pelo Navegacao.php para MOSTRAR páginas)

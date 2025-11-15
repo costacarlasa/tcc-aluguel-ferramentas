@@ -6,7 +6,7 @@ require_once __DIR__ . '/../Controller/verificaCliente.php';
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Confirmar Reserva</title>
+    <title>Simular Reserva</title>
     <link rel="stylesheet" href="View/admin/css/admin.css"> 
 </head>
 <body>
@@ -16,7 +16,6 @@ require_once __DIR__ . '/../Controller/verificaCliente.php';
 ?>
 
 <main>
-    <h2>Confirmar Reserva</h2>
     <p>Você está reservando a ferramenta:</p>
 
     <div class="ferramenta-card" style="width: 300px;">
@@ -44,7 +43,12 @@ require_once __DIR__ . '/../Controller/verificaCliente.php';
 
         <input type="hidden" name="id_ferramenta" value="<?= htmlspecialchars($ferramenta['idFerramenta']) ?>">
         
-        <button type="submit" name="acao_cadastrar_reserva">Confirmar Reserva</button>
+        <a href="?pagina=detalhe_ferramenta&id=<?= $ferramenta['idFerramenta'] ?>" style="display: inline-block; padding: 8px 12px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 15px;">
+            &larr; Voltar para Detalhes
+        </a>
+
+        <button type="submit" name="acao_simular_reserva">Próximo</button>
+
     </form>
     
 </main>

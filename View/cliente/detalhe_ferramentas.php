@@ -29,7 +29,7 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
 
 <main class="detalhe-container">
-    
+          
     <?php if (isset($ferramenta) && $ferramenta): ?>
 
         <h2><?= htmlspecialchars($ferramenta['nomeFerramenta']) ?></h2>
@@ -48,8 +48,13 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
         <h3>Preço</h3>
         <p>R$ <?= number_format($ferramenta['precoFerramenta'], 2, ',', '.') ?> / dia</p>
 
+
+        <a href="?pagina=acessoCliente" style="display: inline-block; padding: 8px 12px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 15px;">
+            &larr; Voltar para a Vitrine
+        </a>
+
         <a href="?pagina=reservar_ferramenta&id=<?= $ferramenta['idFerramenta'] ?>" style="padding: 10px 15px; background-color: green; color: white; text-decoration: none; border-radius: 5px;">
-            Reservar Agora
+            Adicionar Reserva
         </a>
 
     <?php else: ?>

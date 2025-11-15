@@ -37,6 +37,11 @@ elseif (isset($_POST['acao_excluir_reserva'])) {
     $controller->processarExclusao();
 }
 
+elseif (isset($_POST['acao_simular_reserva'])) {
+    $controller = new ReservaController();
+    $controller->simularReserva();
+}
+
 elseif (isset($_POST['acao_cadastrar_reserva'])) {
     $controller = new ReservaController();
     $controller->processarCadastroReserva();
@@ -120,6 +125,14 @@ else {
         case 'minhas_reservas': // Rota para o Histórico
             $controller = new ReservaController();
             $controller->listarMinhasReservas();
+            break;
+
+        case 'confirmar_reserva': //Rota para confirmar reserva
+            include_once __DIR__ . '/../View/cliente/confirmarReserva.php';
+            break;
+
+        case 'feedback_reserva':
+            include_once __DIR__ . '/../View/cliente/feedbackReservaCliente.php';
             break;
             
         // --- Rota Padrão ---

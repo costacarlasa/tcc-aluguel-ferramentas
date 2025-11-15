@@ -1,19 +1,21 @@
 <?php
-session_start();
-
-// Impede acesso sem login
-if (!isset($_SESSION['usuario_id']) || $_SESSION['tipoUsuario'] !== 'cliente') {
-    header("Location: index.php?pagina=login");
-    exit;
-}
-
-require_once __DIR__ . '/../../Model/Reserva.php';
-
-$idCliente = $_SESSION['usuario_id'];
-$reservas = Reserva::listarMinhasReservas($idCliente);
+require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
 
-<h2>Minhas Reservas</h2>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico - Minhas Reservas</title>
+    <link rel="stylesheet" href="View/admin/css/admin.css"> 
+</head>
+<body>
+<?php 
+    require_once __DIR__ . '/../../_partials/menu_cliente.php'; 
+?>
+
+<main>
+<h2>Histórico - Minhas Reservas</h2>
 
 <?php if (empty($reservas)): ?>
     <p>Você ainda não possui reservas cadastradas.</p>
@@ -35,12 +37,12 @@ $reservas = Reserva::listarMinhasReservas($idCliente);
     <tbody>
         <?php foreach ($reservas as $reserva): ?>
             <tr>
-                <td><?= $reserva['idReserva'] ?></td>
-                <td><?= $reserva['nome_ferramenta'] ?></td>
-                <td><?= date('d/m/Y', strtotime($reserva['data_inicio'])) ?></td>
-                <td><?= date('d/m/Y', strtotime($reserva['data_fim'])) ?></td>
-                <td><?= ucfirst($reserva['status_reserva']) ?></td>
-                <td><?= ucfirst($reserva['statusPagamentoReserva']) ?></td>
+                <td><?= htmlspecialchars($reserva['idReserva']) ?></td>
+                <td><?= htmlspecialchars($reserva['nome_ferramenta']) ?></td>
+                <td><?= date('d/m/Y', strtotime($reserva['dataReserva'])) ?></td>
+                <td><?= date('d/m/Y', strtotime($reserva['dataDevolucaoReserva'])) ?></td>
+                <td><?= htmlspecialchars(ucfirst($reserva['statusReserva'])) ?></td>
+                <td><?= htmlspecialchars(ucfirst($reserva['statusPagamentoReserva'])) ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
@@ -48,3 +50,7 @@ $reservas = Reserva::listarMinhasReservas($idCliente);
 </table>
 
 <?php endif; ?>
+
+</main>
+</body>
+</html>

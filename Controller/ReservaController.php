@@ -94,34 +94,65 @@ class ReservaController {
         }
     }
 
-    public function processarCadastroReserva() {
+    public function simularReserva() {
         if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] != 'cliente') {
             header("Location: index.php?pagina=login&status=faca_login");
             exit;
         }
 
-        $idFerramenta = $_POST['id_ferramenta']; 
+        $idFerramenta = $_POST['id_ferramenta'];
         $dataReserva = $_POST['data_reserva'];
         $dataDevolucao = $_POST['data_devolucao'];
-        $idUsuario = $_SESSION['id_usuario'];
+
 
         $ferramentaModel = new Ferramenta();
         $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
-        $valorReserva = $ferramenta['precoFerramenta']; 
+
+        $dataInicio = new DateTime($dataReserva);
+        $dataFim = new DateTime($dataDevolucao);
+        $intervalo = $dataInicio->diff($dataFim);
+        $totalDias = $intervalo->days + 1; 
+
+        $valorDiaria = $ferramenta['precoFerramenta'];
+        $valorTotal = $valorDiaria * $totalDias;
+
+        $_SESSION['reserva_simulacao'] = [
+            'id_usuario' => $_SESSION['id_usuario'],
+            'id_ferramenta' => $idFerramenta,
+            'data_reserva' => $dataReserva,
+            'data_devolucao' => $dataDevolucao,
+            'ferramenta_nome' => $ferramenta['nomeFerramenta'],
+            'valor_diaria' => $valorDiaria,
+            'total_dias' => $totalDias,
+            'valor_total' => $valorTotal
+        ];
+
+        header("Location: index.php?pagina=confirmar_reserva");
+        exit;
+    }
+
+    public function processarCadastroReserva() {
+        if (!isset($_SESSION['id_usuario']) || !isset($_SESSION['reserva_simulacao'])) {
+            header("Location: index.php?pagina=login&status=faca_login");
+            exit;
+        }
+        $dadosSimulacao = $_SESSION['reserva_simulacao'];
 
         $reserva = new Reserva();
-        $reserva->setIdUsuario($idUsuario);
-        $reserva->setIdFerramenta($idFerramenta);
-        $reserva->setDataReserva($dataReserva);
-        $reserva->setDataDevolucao($dataDevolucao);
-        $reserva->setValorReserva($valorReserva);
+        $reserva->setIdUsuario($dadosSimulacao['id_usuario']);
+        $reserva->setIdFerramenta($dadosSimulacao['id_ferramenta']);
+        $reserva->setDataReserva($dadosSimulacao['data_reserva']);
+        $reserva->setDataDevolucao($dadosSimulacao['data_devolucao']);
+        $reserva->setValorReserva($dadosSimulacao['valor_total']); 
 
-        $sucesso = $reserva->criarReserva(); //
+        $sucesso = $reserva->criarReserva(); 
+
+        unset($_SESSION['reserva_simulacao']);
 
         if ($sucesso) {
-            header("Location: index.php?pagina=minhas_reservas&status=sucesso_reserva");
+            header("Location: index.php?pagina=feedback_reserva&status=sucesso");
         } else {
-            header("Location: index.php?pagina=reservar_ferramenta&id=$idFerramenta&status=erro_reserva");
+            header("Location: index.php?pagina=feedback_reserva&status=erro_geral");
         }
         exit;
     }
