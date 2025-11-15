@@ -106,7 +106,7 @@ class ReservaController {
         $idUsuario = $_SESSION['id_usuario'];
 
         $ferramentaModel = new Ferramenta();
-        $ferramenta = $ferramentaModel->buscarPorId($idFerramenta);
+        $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
         $valorReserva = $ferramenta['precoFerramenta']; 
 
         $reserva = new Reserva();
