@@ -9,11 +9,11 @@ class FerramentaController {
     // ==========================================================
     // MÉTODOS GET (Chamados pelo Navegacao.php para MOSTRAR páginas)
     // ==========================================================
-    public function listarFerramentas() {
+    public function listarFerramentasParaVitrine() {
         $ferramentaModel = new Ferramenta();
         $ferramentas = $ferramentaModel->listarFerramentas();
 
-        require_once __DIR__ . '/../View/admin/listar_ferramentas.php';
+        require_once __DIR__ . '/../View/cliente/listar_ferrametas_vitrine.php';
     }
 
     public function listarFerramentasCliente() {
@@ -29,7 +29,7 @@ class FerramentaController {
         if ($ferramenta) {
             require_once __DIR__ . '/../View/admin/editar_ferramentas.php';
         } else {
-            header("Location: ../../index.php?pagina=listar_ferramentas&status=nao_encontrado");
+            header("Location: index.php?pagina=listar_ferramentas&status=nao_encontrado");
             exit;
         }
     }
@@ -42,7 +42,7 @@ class FerramentaController {
         if ($ferramenta) {
             require_once __DIR__ . '/../View/admin/excluir_ferramentas.php';
         } else {
-            header("Location: ../../index.php?pagina=listar_ferramentas&status=nao_encontrado");
+            header("Location: index.php?pagina=listar_ferramentas&status=nao_encontrado");
             exit;
         }
     }
@@ -104,9 +104,9 @@ class FerramentaController {
         $sucesso = $ferramentaModel->excluirFerramenta($id); //
 
         if ($sucesso) {
-            header("Location: ?pagina=listar_ferramentas&status=sucesso_exclusao");
+            header("Location: index.php?pagina=listar_ferramentas&status=sucesso_exclusao");
         } else {
-            header("Location: ?pagina=listar_ferramentas&status=erro_exclusao");
+            header("Location: index.php?pagina=listar_ferramentas&status=erro_exclusao");
         }
         exit;
     }

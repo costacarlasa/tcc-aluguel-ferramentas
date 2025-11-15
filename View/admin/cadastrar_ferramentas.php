@@ -52,7 +52,7 @@
             <input type="file" name="foto_ferramenta">
         </div>
 
-    <button type="submit" name="acao_ferramenta_cadastrar">Cadastrar</button>
+    <button type="submit" name="acao_cadastrar_ferramenta">Cadastrar</button>
     </form>
 </main>
 </body>

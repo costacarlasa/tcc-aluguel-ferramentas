@@ -21,7 +21,7 @@
         <input type="hidden" name="id_ferramenta" value="<?= $ferramenta['idFerramenta'] ?>">
         <p>Tem certeza que deseja excluir <strong><?= htmlspecialchars($ferramenta['nomeFerramenta']) ?></strong>?</p>
         <div>
-            <button type="submit" name="acao_ferramenta_excluir">Excluir</button>
+            <button type="submit" name="acao_excluir_ferramenta">Excluir</button>
             <a href="?pagina=listar_ferramentas">Cancelar</a>
         </div>
     </form>

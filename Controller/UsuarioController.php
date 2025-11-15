@@ -47,13 +47,13 @@ class UsuarioController {
 
             // 🔹 ADMIN vai para painel admin
             if ($dadosUsuario['tipoUsuario'] == 'administrador') {
-                header("Location: index.php?pagina=painel_admin");
+                header("Location: index.php?pagina=acessoAdmin");
                 exit;
             }
 
             // 🔹 CLIENTE vai para a vitrine
             if ($dadosUsuario['tipoUsuario'] == 'cliente') {
-                header("Location: index.php?pagina=vitrine");
+                header("Location: index.php?pagina=acessoCliente");
                 exit;
             }
 

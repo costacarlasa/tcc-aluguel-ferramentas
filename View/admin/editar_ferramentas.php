@@ -58,7 +58,7 @@
             <?php endif; ?>
         </div>
 
-        <button type="submit" name="acao_ferramenta_editar">Salvar alterações</button>
+        <button type="submit" name="acao_editar_ferramenta">Salvar alterações</button>
     </form>
 </main>
 </body>
