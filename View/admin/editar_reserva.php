@@ -7,7 +7,8 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 <head>
     <meta charset="UTF-8">
     <title>Editar Reserva</title>
-    <link rel="stylesheet" href="css/admin.css"> </head>
+    <link rel="stylesheet" href="View/css/style.css"> 
+</head>
 <body>
 
 <?php 

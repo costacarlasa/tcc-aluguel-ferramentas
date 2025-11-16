@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Usuário - Primeiro Acesso</title>
+    <link rel="stylesheet" href="View/css/style.css">
 </head>
 <body>
     <h1>Crie sua Conta</h1>

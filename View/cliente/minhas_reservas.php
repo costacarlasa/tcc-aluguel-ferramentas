@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 <head>
     <meta charset="UTF-8">
     <title>Histórico - Minhas Reservas</title>
-    <link rel="stylesheet" href="View/admin/css/admin.css"> 
+    <link rel="stylesheet" href="View/css/style.css">
 </head>
 <body>
 <?php 

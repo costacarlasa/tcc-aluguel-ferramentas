@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head><title>Cadastro Usuário - Primeiro Acesso</title></head>
+<head>
+    <title>Cadastro Usuário - Primeiro Acesso</title>
+    <link rel="stylesheet" href="View/css/style.css">
+</head>
 <body>
     <?php
     // Lê o status da URL (ex: ?status=cadastro_sucesso)

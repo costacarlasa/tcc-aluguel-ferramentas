@@ -1,0 +1,150 @@
+/* --- 1. Reset Básico e Padrões do Corpo --- */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto; /* Centraliza o conteúdo principal */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* --- 2. Estilização de Menus (Admin e Cliente) --- */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 15px 20px;
+    margin: 0;
+    background: #ffffff;
+    border-bottom: 2px solid #e0e0e0;
+    flex-wrap: wrap;
+}
+nav a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #555;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+nav a:hover {
+    background-color: #f0f0f0;
+    color: #000;
+    text-decoration: none;
+}
+
+/* --- 3. Padrão para Formulários --- */
+form div {
+    margin-bottom: 15px;
+}
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form input[type="date"],
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* --- 4. Padrão para Botões --- */
+button,
+a[style*="background-color"] 
+{
+    padding: 12px 18px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Botão Padrão (Verde) */
+button[type="submit"] {
+    background-color: #28a745; 
+}
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Botão de Excluir */
+button[name*="excluir"] {
+    background-color: #dc3545;
+}
+button[name*="excluir"]:hover {
+    background-color: #c82333;
+}
+
+/* Botão de Cancelar/Voltar*/
+a[style*="#6c757d"],
+a[href*="Cancelar"] 
+{
+    background-color: #6c757d; 
+}
+a[style*="#6c757d"]:hover,
+a[href*="Cancelar"]:hover
+{
+    background-color: #5a6268;
+}
+
+
+/* --- 5. Padrão para Tabelas --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+table img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+}

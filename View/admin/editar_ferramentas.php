@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Ferramenta</title>
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="View/css/style.css">
 </head>
 <body>
 

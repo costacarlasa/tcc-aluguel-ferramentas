@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Aluguel de Ferramentas</title>
+    <link rel="stylesheet" href="View/css/style.css">
     </head>
 <body>
     <?php

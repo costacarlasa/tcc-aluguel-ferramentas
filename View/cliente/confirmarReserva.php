@@ -13,7 +13,7 @@ if (!$simulacao) {
 <head>
     <meta charset="UTF-8">
     <title>Confirmar Reserva</title>
-    <link rel="stylesheet" href="View/admin/css/admin.css"> 
+    <link rel="stylesheet" href="View/css/style.css"> 
 </head>
 <body>
 <?php 

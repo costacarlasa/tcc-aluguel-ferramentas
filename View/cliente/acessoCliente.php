@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 <head>
     <meta charset="UTF-8">
     <title>Vitrine de Ferramentas</title>
-    <link rel="stylesheet" href="View/admin/css/admin.css"> 
+    <link rel="stylesheet" href="View/css/style.css">
     <style>
         .vitrine-container {
             display: flex;

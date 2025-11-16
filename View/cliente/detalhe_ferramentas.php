@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 <head>
     <meta charset="UTF-8">
     <title>Detalhes da Ferramenta</title>
-    <link rel="stylesheet" href="View/admin/css/admin.css">
+    <link rel="stylesheet" href="View/css/style.css">
     <style>
         .detalhe-container {
             padding: 20px;

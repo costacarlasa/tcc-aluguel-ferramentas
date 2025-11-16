@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 <head>
     <meta charset="UTF-8">
     <title>Minhas Ferramentas (Locador)</title>
-    <link rel="stylesheet" href="View/admin/css/admin.css"> </head>
+    <link rel="stylesheet" href="View/css/style.css">
 <body>
 
 <?php 

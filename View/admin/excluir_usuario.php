@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 <head>
     <meta charset="UTF-8">
     <title>Confirmar Exclusão</title>
-    <link rel="stylesheet" href="css/admin.css"> 
+    <link rel="stylesheet" href="View/css/style.css"> 
 </head>
 <body>
 
