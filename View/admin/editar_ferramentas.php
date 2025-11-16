@@ -33,7 +33,27 @@
 
         <div>
             <label>Categoria:</label>
-            <input type="text" name="categoria_ferramenta" value="<?= htmlspecialchars($ferramenta['categoriaFerramenta']) ?>" required>
+            <select name="categoria_ferramenta" required>
+                <option value="">Selecione:</option>
+                <?php 
+                    $categorias = ['Marcenaria', 'Pintura', 'Hidráulica', 'Alvenaria', 'Outros'];
+                    $categoriaAtual = $ferramenta['categoriaFerramenta'];
+
+                    foreach ($categorias as $cat): 
+                ?>
+                    <option value="<?= $cat ?>" <?= ($categoriaAtual == $cat) ? 'selected' : '' ?>>
+                        <?= $cat ?>
+                    </option>
+                <?php 
+                    endforeach; 
+
+                    if (!in_array($categoriaAtual, $categorias) && $categoriaAtual):
+                ?>
+                    <option value="<?= htmlspecialchars($categoriaAtual) ?>" selected>
+                        <?= htmlspecialchars($categoriaAtual) ?> (Outros)
+                    </option>
+                <?php endif; ?>
+            </select>
         </div>
 
         <div>

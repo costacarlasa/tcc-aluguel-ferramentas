@@ -9,6 +9,7 @@ class Ferramenta {
     private $precoFerramenta;
     private $disponibilidadeFerramenta;
     private $fotoFerramenta;
+    private $idUsuario;
 
     //Setters 
     public function setId($id) {
@@ -33,29 +34,28 @@ class Ferramenta {
         $this->fotoFerramenta = $foto;
     }
 
-    // (Getters seriam adicionados aqui se necessário)
-    
-    /**
-     * Cadastra uma nova ferramenta
-     */
+    public function setIdUsuario($id) {
+        $this->idUsuario = $id;
+    }
+
     public function cadastrarFerramenta() {
 
         $conexaoBD = new ConexaoBD();
         $pdo = $conexaoBD->conectar();
         
         try {
-            $sql = "INSERT INTO ferramenta (nomeFerramenta, modeloFerramenta, categoriaFerramenta, precoFerramenta, disponibilidadeFerramenta, fotoFerramenta)
-                    VALUES (:nome, :modelo, :categoria, :preco, :disponibilidade, :foto)";
+            $sql = "INSERT INTO ferramenta (nomeFerramenta, modeloFerramenta, categoriaFerramenta, precoFerramenta, disponibilidadeFerramenta, fotoFerramenta, idUsuario)
+                    VALUES (:nome, :modelo, :categoria, :preco, :disponibilidade, :foto, :idUsuario)";
             
             $stmt = $pdo->prepare($sql);
 
-            // Usa $this->... (como no Usuario.php)
             $stmt->bindParam(':nome', $this->nomeFerramenta);
             $stmt->bindParam(':modelo', $this->modeloFerramenta);
             $stmt->bindParam(':categoria', $this->categoriaFerramenta);
             $stmt->bindParam(':preco', $this->precoFerramenta);
             $stmt->bindParam(':disponibilidade', $this->disponibilidadeFerramenta);
             $stmt->bindParam(':foto', $this->fotoFerramenta);
+            $stmt->bindParam(':idUsuario', $this->idUsuario);
             
             return $stmt->execute();
 
@@ -64,12 +64,8 @@ class Ferramenta {
             return false;
         }
     }
-
-    /**
-     * Atualiza uma ferramenta
-     */
+    
     public function atualizarFerramenta() {
-        // Conecta dentro do método
         $conexaoBD = new ConexaoBD();
         $pdo = $conexaoBD->conectar();
 
@@ -84,8 +80,6 @@ class Ferramenta {
                     WHERE idFerramenta = :id";
             
             $stmt = $pdo->prepare($sql);
-            
-            // Usa $this->...
             $stmt->bindParam(':nome', $this->nomeFerramenta);
             $stmt->bindParam(':modelo', $this->modeloFerramenta);
             $stmt->bindParam(':categoria', $this->categoriaFerramenta);
@@ -102,9 +96,6 @@ class Ferramenta {
         }
     }
 
-    /**
-     * Retorna todas as ferramentas
-     */
     public function listarFerramentas() {
         $conexaoBD = new ConexaoBD();
         $pdo = $conexaoBD->conectar();
@@ -120,9 +111,6 @@ class Ferramenta {
         }
     }
 
-    /**
-     * Busca uma ferramenta pelo ID
-     */
     public function buscarFerramentaPorId($id) {
         $conexaoBD = new ConexaoBD();
         $pdo = $conexaoBD->conectar();
@@ -140,9 +128,6 @@ class Ferramenta {
         }
     }
 
-    /**
-     * Exclui uma ferramenta pelo ID
-     */
     public function excluirFerramenta($id) {
 
         $conexaoBD = new ConexaoBD();
@@ -157,6 +142,26 @@ class Ferramenta {
         } catch (PDOException $e) {
             error_log("Erro ao excluir ferramenta: " . $e->getMessage());
             return false;
+        }
+    }
+
+    public function listarMinhasFerramentas($idUsuario) {
+        $conexaoBD = new ConexaoBD();
+        $pdo = $conexaoBD->conectar();
+        
+        try {
+            $sql = "SELECT * FROM ferramenta 
+                    WHERE idUsuario = :idUsuario 
+                    ORDER BY nomeFerramenta ASC";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            error_log("Erro ao listar 'minhas' ferramentas: " . $e->getMessage());
+            return [];
         }
     }
 }

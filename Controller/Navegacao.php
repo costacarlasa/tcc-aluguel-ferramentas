@@ -70,6 +70,21 @@ elseif (isset($_POST['acao_excluir_usuario'])) {
     $controller->processarExclusaoUsuario();
 }
 
+elseif (isset($_POST['acao_cadastrar_minha_ferramenta'])) {
+    $controller = new FerramentaController();
+    $controller->processarCadastroMinhaFerramenta();
+}
+
+elseif (isset($_POST['acao_editar_minha_ferramenta'])) {
+    $controller = new FerramentaController();
+    $controller->processarEdicaoMinhaFerramenta();
+}
+
+elseif (isset($_POST['acao_excluir_minha_ferramenta'])) {
+    $controller = new FerramentaController();
+    $controller->processarExclusaoMinhaFerramenta();
+}
+
 
 // === ROTAS GET (Links/Páginas) ===
 else {
@@ -77,6 +92,7 @@ else {
     $controller = null;
 
     switch ($pagina) { 
+        // --- Públicas ---
         case 'login':
             include_once __DIR__ . '/../View/login.php';
             break;
@@ -92,6 +108,7 @@ else {
             exit;
             break;
 
+        // --- Admin ---
         case 'acessoAdmin':
             include_once __DIR__ . '/../View/admin/acessoAdmin.php';
             break;
@@ -113,7 +130,7 @@ else {
         case 'excluir_ferramentas':
             $controller = new FerramentaController();
             $controller->exibirConfirmacaoExclusao();
-            break;  
+            break;   
 
         case 'listar_reservas':
             $controller = new ReservaController();
@@ -130,10 +147,10 @@ else {
             $controller->exibirConfirmacaoExclusao();
             break;
 
-        case 'listar_funcionarios': 
+        case 'listar_usuarios': 
             $controller = new UsuarioController();
-            $controller->listarFuncionarios(); 
-            break;
+            $controller->listarUsuarios(); 
+        break;
 
         case 'cadastrar_funcionario':
             include_once __DIR__ . '/../View/admin/cadastrar_funcionario.php'; 
@@ -141,14 +158,15 @@ else {
 
         case 'editar_usuario':
             $controller = new UsuarioController();
-            $controller->exibirFormularioEdicaoUsuario(); //
+            $controller->exibirFormularioEdicaoUsuario();
             break;
 
         case 'excluir_usuario':
             $controller = new UsuarioController();
-            $controller->exibirConfirmacaoExclusaoUsuario(); //
+            $controller->exibirConfirmacaoExclusaoUsuario();
             break;
 
+        // --- Cliente ---
         case 'acessoCliente': 
             $controller = new FerramentaController();
             $controller->listarFerramentasParaVitrine();
@@ -176,10 +194,30 @@ else {
         case 'feedback_reserva':
             include_once __DIR__ . '/../View/cliente/feedbackReservaCliente.php';
             break;
-            
+
         case 'meu_perfil':
             $controller = new UsuarioController();
             $controller->exibirMeuPerfil();
+            break;
+            
+        // --- Cliente Locador ---
+        case 'listar_minhas_ferramentas': 
+            $controller = new FerramentaController();
+            $controller->listarMinhasFerramentas();
+            break;
+
+        case 'cadastrar_minha_ferramenta':
+            include_once __DIR__ . '/../View/cliente/cadastrar_minhas_ferramentas.php';
+            break;
+
+        case 'editar_minha_ferramenta':
+            $controller = new FerramentaController();
+            $controller->exibirFormularioEdicaoCliente();
+            break;
+            
+        case 'excluir_minha_ferramenta':
+            $controller = new FerramentaController();
+            $controller->exibirConfirmacaoExclusaoCliente();
             break;
             
         // --- Rota Padrão ---

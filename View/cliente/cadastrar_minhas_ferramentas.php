@@ -1,25 +1,26 @@
-<?php 
-    require_once __DIR__ . '/../../Controller/verificaAdmin.php'; 
+<?php
+require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastrar Ferramenta</title>
-    <link rel="stylesheet" href="../css/admin.css">
-</head>
+    <title>Cadastrar Minha Ferramenta</title>
+    <link rel="stylesheet" href="View/admin/css/admin.css"> </head>
 <body>
 
 <?php 
-    require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
+    require_once __DIR__ . '/../../_partials/menu_cliente.php'; 
 ?>
 
 <main>
-    <h2>Cadastrar Nova Ferramenta</h2>
+    <h2>Cadastrar Nova Ferramenta para Aluguel</h2>
+    <p>Preencha os dados da ferramenta que você deseja disponibilizar na plataforma.</p>
+
     <form action="index.php" method="POST" enctype="multipart/form-data">
+    
     <div>
-        <label>Nome:</label>
+        <label>Nome da Ferramenta:</label>
             <input type="text" name="nome_ferramenta" placeholder="Ex: Furadeira de Impacto Bosch" required>
     </div>
 
@@ -41,25 +42,19 @@
     </div>
 
     <div>
-            <label>Valor da Diára (R$):</label>
-            <input type="number" name="preco_ferramenta" step="0.01" placeholder="R$ 189,90" required>
+            <label>Valor da Diária (R$):</label>
+            <input type="number" name="preco_ferramenta" step="0.01" placeholder="25,00" required>
     </div>
 
     <div>
-        <label>Disponibilidade:</label>        
-        <select name="disponibilidade_ferramenta">
-            <option value="disponivel">Disponível</option>
-            <option value="reservada">Reservada</option>
-            <option value="inativa">Inativa</option>
-        </select>
+            <label>Foto (Obrigatória):</label>
+            <input type="file" name="foto_ferramenta" required>
     </div>
 
-    <div>
-            <label>Foto:</label>
-            <input type="file" name="foto_ferramenta">
-        </div>
-
-    <button type="submit" name="acao_cadastrar_ferramenta">Cadastrar</button>
+    <button type="submit" name="acao_cadastrar_minha_ferramenta">
+        Disponibilizar Ferramenta
+    </button>
+    <a href="?pagina=listar_minhas_ferramentas" style="margin-left: 10px;">Cancelar</a>
     </form>
 </main>
 </body>

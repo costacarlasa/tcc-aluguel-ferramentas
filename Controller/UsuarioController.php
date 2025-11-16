@@ -110,15 +110,15 @@ class UsuarioController {
         exit;
     }
 
-    public function listarFuncionarios() {
+    public function listarUsuarios() {
         $usuarioModel = new Usuario();        
         $usuarios = $usuarioModel->listarTodosUsuarios(); 
-        require_once __DIR__ . '/../View/admin/listar_funcionarios.php';
+        require_once __DIR__ . '/../View/admin/listar_usuarios.php';
     }
 
     public function processarCadastroFuncionario() {
         if ($_POST['senha_usuario'] !== $_POST['confirmar_senha']) { 
-            header("Location: index.php?pagina=cadastrar_funcionario&status=erro_senha");
+            header("Location: index.php?pagina=listar_funcionarios&status=sucesso_cadastro");
             exit;
         }
 
@@ -169,7 +169,7 @@ class UsuarioController {
         $sucesso = $usuario->atualizarUsuarioAdmin(); 
 
         if ($sucesso) {
-            header("Location: index.php?pagina=listar_funcionarios&status=sucesso_edicao");
+            header("Location: index.php?pagina=listar_usuarios&status=sucesso_edicao");
         } else {
             header("Location: index.php?pagina=listar_funcionarios&status=erro_edicao");
         }
@@ -196,7 +196,7 @@ class UsuarioController {
         $sucesso = $usuarioModel->excluirUsuario($id); 
 
         if ($sucesso) {
-            header("Location: index.php?pagina=listar_funcionarios&status=sucesso_exclusao");
+            header("Location: index.php?pagina=listar_usuarios&status=sucesso_exclusao");
         } else {
             header("Location: index.php?pagina=listar_funcionarios&status=erro_exclusao_fk");
         }

@@ -77,6 +77,7 @@ class FerramentaController {
         $ferramenta->setPreco($_POST['preco_ferramenta']);
         $ferramenta->setDisponibilidade($_POST['disponibilidade_ferramenta']);
         $ferramenta->setFoto($nomeFoto); 
+        $ferramenta->setIdUsuario($_SESSION['id_usuario']);
 
         $sucesso = $ferramenta->cadastrarFerramenta(); 
         if ($sucesso) {
@@ -127,9 +128,6 @@ class FerramentaController {
         exit;
     }
 
-    /**
-     * Método auxiliar privado para lidar com upload de arquivos
-     */
     private function processarUploadFoto() {
         if (isset($_FILES['foto_ferramenta']) && $_FILES['foto_ferramenta']['error'] == 0) {
             
@@ -150,6 +148,144 @@ class FerramentaController {
             }
         }
         return null;
+    }
+
+    // ==========================================================
+    // MÉTODOS DO LOCADOR 
+    // ==========================================================
+
+    public function listarMinhasFerramentas() {
+        if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] != 'cliente') {
+            header("Location: index.php?pagina=login&status=faca_login");
+            exit;
+        }
+
+        $idUsuarioLogado = $_SESSION['id_usuario'];
+        $ferramentaModel = new Ferramenta();
+        $ferramentas = $ferramentaModel->listarMinhasFerramentas($idUsuarioLogado);
+
+        require_once __DIR__ . '/../View/cliente/listar_minhas_ferramentas.php';
+    }
+
+    public function processarCadastroMinhaFerramenta() {
+        if (!isset($_SESSION['id_usuario']) || $_SESSION['tipo_usuario'] != 'cliente') {
+            header("Location: index.php?pagina=login");
+            exit;
+        }
+
+        $ferramenta = new Ferramenta();
+        $nomeFoto = $this->processarUploadFoto(); 
+
+        $ferramenta->setNome($_POST['nome_ferramenta']);
+        $ferramenta->setModelo($_POST['modelo_ferramenta']);
+        $ferramenta->setCategoria($_POST['categoria_ferramenta']);
+        $ferramenta->setPreco($_POST['preco_ferramenta']);
+        $ferramenta->setFoto($nomeFoto); 
+        $ferramenta->setDisponibilidade('disponivel');
+        $ferramenta->setIdUsuario($_SESSION['id_usuario']);
+
+        $sucesso = $ferramenta->cadastrarFerramenta(); 
+        
+        if ($sucesso) {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=sucesso_cadastro_locador");
+        } else {
+            header("Location: index.php?pagina=cadastrar_minha_ferramenta&status=erro_cadastro");
+        }
+        exit;
+    }
+
+    public function exibirFormularioEdicaoCliente() {
+        if (!isset($_SESSION['id_usuario'])) { header("Location: index.php?pagina=login"); exit; }
+
+        $idFerramenta = $_GET['id'] ?? 0;
+        $idUsuarioLogado = $_SESSION['id_usuario'];
+
+        $ferramentaModel = new Ferramenta();
+        $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
+
+        if ($ferramenta && $ferramenta['idUsuario'] == $idUsuarioLogado) {
+            require_once __DIR__ . '/../View/cliente/editar_minhas_ferramentas.php';
+        } else {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=erro_permissao");
+            exit;
+        }
+    }
+
+    public function processarEdicaoMinhaFerramenta() {
+        if (!isset($_SESSION['id_usuario'])) { header("Location: index.php?pagina=login"); exit; }
+
+        $idFerramenta = $_POST['id_ferramenta'];
+        $idUsuarioLogado = $_SESSION['id_usuario'];
+
+        $ferramenta = new Ferramenta();
+        $ferramentaAtual = $ferramenta->buscarFerramentaPorId($idFerramenta);
+        
+        if (!$ferramentaAtual || $ferramentaAtual['idUsuario'] != $idUsuarioLogado) {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=erro_permissao");
+            exit;
+        }
+
+        $nomeFotoAntiga = $ferramentaAtual['fotoFerramenta'] ?? null;
+        $nomeFotoNova = $this->processarUploadFoto();
+
+        $ferramenta->setId($idFerramenta);
+        $ferramenta->setNome($_POST['nome_ferramenta']);
+        $ferramenta->setModelo($_POST['modelo_ferramenta']);
+        $ferramenta->setCategoria($_POST['categoria_ferramenta']);
+        $ferramenta->setPreco($_POST['preco_ferramenta']);
+        $ferramenta->setFoto($nomeFotoNova ?? $nomeFotoAntiga); 
+        $ferramenta->setIdUsuario($idUsuarioLogado);
+        $ferramenta->setDisponibilidade($ferramentaAtual['disponibilidadeFerramenta']);
+
+        $sucesso = $ferramenta->atualizarFerramenta();
+
+        if ($sucesso) {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=sucesso_edicao");
+        } else {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=erro_edicao");
+        }
+        exit;
+    }
+
+    public function exibirConfirmacaoExclusaoCliente() {
+        if (!isset($_SESSION['id_usuario'])) { header("Location: index.php?pagina=login"); exit; }
+        
+        $idFerramenta = $_GET['id'] ?? 0;
+        $idUsuarioLogado = $_SESSION['id_usuario'];
+
+        $ferramentaModel = new Ferramenta();
+        $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
+
+        if ($ferramenta && $ferramenta['idUsuario'] == $idUsuarioLogado) {
+            require_once __DIR__ . '/../View/cliente/excluir_minhas_ferramentas.php';
+        } else {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=erro_permissao");
+            exit;
+        }
+    }
+
+    public function processarExclusaoMinhaFerramenta() {
+        if (!isset($_SESSION['id_usuario'])) { header("Location: index.php?pagina=login"); exit; }
+
+        $idFerramenta = $_POST['id_ferramenta'];
+        $idUsuarioLogado = $_SESSION['id_usuario'];
+
+        $ferramentaModel = new Ferramenta();
+        $ferramentaAtual = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
+
+        if (!$ferramentaAtual || $ferramentaAtual['idUsuario'] != $idUsuarioLogado) {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=erro_permissao");
+            exit;
+        }
+
+        $sucesso = $ferramentaModel->excluirFerramenta($idFerramenta);
+
+        if ($sucesso) {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=sucesso_exclusao");
+        } else {
+            header("Location: index.php?pagina=listar_minhas_ferramentas&status=erro_exclusao_fk");
+        }
+        exit;
     }
 }
 ?>

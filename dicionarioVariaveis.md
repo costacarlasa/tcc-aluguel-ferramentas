@@ -36,7 +36,7 @@ Valores do atributo `name=""` nos formulários HTML.
 * `telefone_usuario`: Campo de telefone.
 * `endereco_usuario`: Campo de endereço.
 * `categoria_cliente`: Campo de rádio (PF ou PJ).
-* `cpf_cnpj`: Campo de CPF/CNPJ (corrigido de `cpf_cnpj` para `cpf_cnpj_usuario`).
+* `cpf_cnpj_usuario`: Campo de CPF/CNPJ. (Nome correto usado em).
 
 ### Sprint 2: CRUD de Ferramentas (Admin)
 * `acao_cadastrar_ferramenta`: Botão de envio do `cadastrar_ferramentas.php`.
@@ -50,20 +50,29 @@ Valores do atributo `name=""` nos formulários HTML.
 * `disponibilidade_ferramenta`: Campo `<select>` de disponibilidade.
 
 ### Sprint 3: Fluxo de Reserva (Cliente)
-* `acao_simular_reserva`: Botão de envio do `reserva_formulario.php`.
-* `data_reserva`: Campo "Data de Retirada".
-* `data_devolucao`: Campo "Data de Devolução".
-* `acao_cadastrar_reserva`: Botão de envio do `confirmarReserva.php`.
+* `acao_simular_reserva`: Botão de envio do `reserva_formulario.php` (para simulação).
+* `data_reserva`: Campo "Data de Retirada" do `reserva_formulario.php`.
+* `data_devolucao`: Campo "Data de Devolução" (corrigido do `dicionarioVariaveis.md` original, usado em).
+* `acao_cadastrar_reserva`: Botão de envio do `confirmarReserva.php` (para confirmação final).
 
 ### Sprint 4: Gerenciamento (Admin & Perfil)
-* `acao_editar_reserva`: Botão de envio do `editar_reserva.php`.
-* `id_reserva`: Campo `hidden` para identificar a reserva na edição/exclusão.
-* `id_usuario`: Campo `hidden` (usado na edição de reserva).
-* `status_reserva`: Campo `<select>` de status da reserva.
-* `status_pagamento`: Campo `<select>` de status do pagamento.
-* `acao_excluir_reserva`: Botão de envio do `excluir_reserva.php`.
-* `acao_editar_perfil`: Botão de envio do `meu_perfil.php`.
-* `(nome_usuario, telefone_usuario, endereco_usuario)`: Reutilizados do Sprint 1 para o formulário `meu_perfil.php`.
+* **Gerenciamento de Reservas (Admin):**
+    * `acao_editar_reserva`: Botão de envio do `editar_reserva.php`.
+    * `acao_excluir_reserva`: Botão de envio do `excluir_reserva.php`.
+    * `id_reserva`: Campo `hidden` para identificar a reserva na edição/exclusão.
+    * `id_usuario`: Campo `hidden` (usado na edição de reserva).
+    * `status_reserva`: Campo `<select>` de status da reserva.
+    * `status_pagamento`: Campo `<select>` de status do pagamento (corrigido do `dicionarioVariaveis.md` original, usado em).
+* **Perfil do Cliente:**
+    * `acao_editar_perfil`: Botão de envio do `meu_perfil.php`.
+    * `(nome_usuario, telefone_usuario, endereco_usuario)`: Reutilizados do Sprint 1 para o formulário `meu_perfil.php`.
+* **Gerenciamento de Usuários (Admin):**
+    * `acao_cadastrar_funcionario`: Botão de envio do `cadastrar_funcionario.php`.
+    * `acao_editar_usuario`: Botão de envio do `editar_usuario.php`.
+    * `acao_excluir_usuario`: Botão de envio do `excluir_usuario.php`.
+    * `id_usuario`: Campo `hidden` (usado na edição/exclusão de usuário).
+    * `tipo_usuario`: Campo `<select>` para definir a permissão (cliente/administrador).
+    * `(nome_usuario, email_usuario, ...)`: Reutilizados do Sprint 1 para o formulário `cadastrar_funcionario.php`.
 
 ---
 

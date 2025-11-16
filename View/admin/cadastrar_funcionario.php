@@ -66,7 +66,7 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
         </div>
 
         <div>
-            <a href="?pagina=listar_funcionarios" style="display: inline-block; padding: 8px 12px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 15px;">
+            <a href="?pagina=listar_usuarios" style="display: inline-block; padding: 8px 12px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 15px;">
                 &larr; Voltar para a Lista
             </a>
         </div>

@@ -35,7 +35,7 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
             <button type="submit" name="acao_excluir_usuario" style="background-color: #dc3545; color: white;">
                 Sim, Excluir Usuário
             </button>
-            <a href="?pagina=listar_funcionarios">Cancelar</a>
+            <a href="?pagina=listar_usuarios">Cancelar</a>
         </form>
 
     <?php else: ?>

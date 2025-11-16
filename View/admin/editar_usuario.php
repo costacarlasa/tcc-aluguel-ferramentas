@@ -66,7 +66,7 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
         </div>
         
         <button type="submit" name="acao_editar_usuario">Salvar Alterações</button>
-        <a href="?pagina=listar_funcionarios">Cancelar</a>
+        <a href="?pagina=listar_usuarios">Cancelar</a>
     </form>
 </main>
 </body>
