@@ -16,7 +16,9 @@
 ?>
 
 <main>
-    <h2>Editar Ferramenta</h2>
+    <div style="text-align: center;">
+        <h2>Editar Ferramenta</h2>
+    </div>
 
     <form action="index.php" method="POST" enctype="multipart/form-data">
 

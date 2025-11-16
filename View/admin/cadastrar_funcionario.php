@@ -15,7 +15,9 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 ?>
 
 <main>
-    <h2>Cadastrar Novo Funcionário (Admin)</h2>
+    <div style="text-align: center;">
+        <h2>Cadastrar Novo Funcionário (Admin)</h2>
+    </div>
     <p>Este formulário cadastra um novo usuário com privilégios de Administrador.</p>
 
     <?php if (isset($_GET['status'])): ?>

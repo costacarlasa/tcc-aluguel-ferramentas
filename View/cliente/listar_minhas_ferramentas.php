@@ -15,10 +15,12 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
 
 <main>
-    <h2>Minhas Ferramentas (Modo Locador)</h2>
-    <p>Aqui você gerencia as ferramentas que cadastrou para aluguel.</p>
+    <div style="text-align: center;">
+        <h2>Minhas Ferramentas - Modo Locador </h2>
+        <p>Aqui você gerencia as ferramentas que cadastrou para aluguel.</p>
+    </div>
 
-    <p><a href="?pagina=cadastrar_minha_ferramenta" style="padding: 10px 15px; background-color: green; color: white; text-decoration: none;">+ Cadastrar Nova Ferramenta</a></p>
+    <p><a href="?pagina=cadastrar_minha_ferramenta" class="btn btn-primary">+ Cadastrar Nova Ferramenta</a></p>
 
     <?php if (isset($_GET['status']) && $_GET['status'] == 'sucesso_cadastro_locador'): ?>
         <p style="color: green; border: 1px solid green; padding: 10px;">Nova ferramenta cadastrada com sucesso!</p>

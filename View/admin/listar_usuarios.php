@@ -16,9 +16,11 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 ?>
 
 <main>
-    <h2>Gerenciar Usuários</h2>
+    <div style="text-align: center;">
+        <h1>Gerenciar Usuários</h1>
+    </div>
     
-    <p><a href="?pagina=cadastrar_funcionario" style="padding: 10px 15px; background-color: green; color: white; text-decoration: none;">+ Cadastrar Novo Funcionário</a></p>
+    <p><a href="?pagina=cadastrar_funcionario" class="btn btn-primary">+ Cadastrar Novo Funcionário</a></p>
 
     <?php if (isset($_GET['status']) && $_GET['status'] == 'sucesso_cadastro'): ?>
         <p style="color: green; border: 1px solid green; padding: 10px;">Novo funcionário cadastrado com sucesso!</p>
@@ -28,7 +30,9 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 
     <hr>
 
-    <h3>Funcionários (Administradores)</h3>
+    <h3 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Funcionários (administradores)
+        </h3>
     <table border="1">
         <thead>
             <tr>
@@ -73,7 +77,11 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 
     <hr style="margin-top: 30px;">
 
-    <h3>Clientes</h3>
+    
+    <h3 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Clientes
+        </h3>
+
     <table border="1">
         <thead>
             <tr>

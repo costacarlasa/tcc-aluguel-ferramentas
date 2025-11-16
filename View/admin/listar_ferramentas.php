@@ -7,7 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Listar Ferramentas</title>
+    
     <link rel="stylesheet" href="View/css/style.css">
+
 </head>
 <body>
 
@@ -15,9 +17,13 @@
     require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
 ?>
 
-<main>
-        <h2>Lista de Ferramentas</h2>
-        <p><a href="?pagina=cadastrar_ferramentas">Cadastrar Nova Ferramenta</a></p>
+<main style="max-width: none; width: 95%;">
+
+        <div style="text-align: center;">
+            <h1> Lista de Ferramentas </h1>
+        </div>
+        
+        <p><a href="?pagina=cadastrar_ferramentas" class="btn btn-primary">+ Cadastrar Nova Ferramenta</a></p>
 
         <table border="1">
             <thead>
@@ -46,7 +52,7 @@
                         <td><?= htmlspecialchars($f['disponibilidadeFerramenta']) ?></td>
                         <td>
                             <?php if (!empty($f['fotoFerramenta'])): ?>
-                                <img src="../../uploads/<?= htmlspecialchars($f['fotoFerramenta']) ?>" alt="<?= htmlspecialchars($f['nomeFerramenta']) ?>" width="100">
+                                <img src="Img/<?= htmlspecialchars($f['fotoFerramenta']) ?>" alt="<?= htmlspecialchars($f['nomeFerramenta']) ?>" width="100">
                             <?php else: ?>
                                 Sem Foto
                             <?php endif; ?>
@@ -67,6 +73,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
+            
     </main>
 </body>
 </html>

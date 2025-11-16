@@ -15,7 +15,9 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
 
 <main>
-<h2>Histórico - Minhas Reservas</h2>
+    <div style="text-align: center;">
+        <h2>Histórico - Minhas Reservas</h2>
+    </div>
 
 <?php if (empty($reservas)): ?>
     <p>Você ainda não possui reservas cadastradas.</p>

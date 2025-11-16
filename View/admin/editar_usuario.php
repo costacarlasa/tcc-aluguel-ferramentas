@@ -15,7 +15,9 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 ?>
 
 <main>
+    <div style="text-align: center;">
     <h2>Editar Usuário (ID: <?= htmlspecialchars($usuario['idUsuario']) ?>)</h2>
+    </div>
     <p>Atenção: A senha não pode ser alterada por este formulário.</p>
     
     <form action="index.php" method="POST">

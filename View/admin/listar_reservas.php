@@ -7,13 +7,17 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 <head>
     <meta charset="UTF-8">
     <title>Reservas - Painel Admin</title>
+    
     <link rel="stylesheet" href="View/css/style.css">
+
 </head>
 <body>
 <?php 
     require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
 ?>
-<main>
+
+<main style="max-width: none; width: 95%;">
+
     <?php if (isset($_GET['status'])): ?>
         <?php if ($_GET['status'] == 'sucesso_edicao'): ?>
             <p style="color: green; border: 1px solid green; padding: 10px;">Reserva atualizada com sucesso!</p>
@@ -24,7 +28,10 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
         <?php endif; ?>
     <?php endif; ?>
 
-    <h1>Gerenciar Reservas</h1>
+    <div style="text-align: center;">
+        <h2> Gerenciar Reservas </h2>
+    </div>
+    
     <table>
         <thead>
             <tr>
@@ -51,7 +58,7 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
                     <td>R$ <?= number_format($r['valorReserva'], 2, ',', '.') ?></td>
                     <td><?= htmlspecialchars(ucfirst($r['statusPagamentoReserva'])) ?></td>
                     <td>
-                        <a href="?pagina=editar_reserva&id=<?= $r['idReserva'] ?>">Editar</a> 
+                        <a href="?pagina=editar_reserva&id=<?= $r['idReserva'] ?>">Editar</a> |
                         <a href="?pagina=excluir_reserva&id=<?= $r['idReserva'] ?>">Excluir</a>
                     </td>
                 </tr>

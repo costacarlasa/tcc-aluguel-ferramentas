@@ -1,13 +1,20 @@
 <?php
 require_once __DIR__ . '/../../Controller/verificaAdmin.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Editar Reserva</title>
+
     <link rel="stylesheet" href="View/css/style.css"> 
+
+    <style>
+        .form-container {
+            max-width: 600px; /* Mais estreito que o padrão, mais largo que o login */
+            margin-top: 50px; 
+        }
+    </style>
 </head>
 <body>
 
@@ -15,8 +22,11 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
     require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php'; 
 ?>
 
-<main>
-    <h2>Editar Reserva (ID: <?= htmlspecialchars($reserva['idReserva']) ?>)</h2>
+<main class="form-container">
+
+<div style="text-align: center;">
+    <h2> Editar Reserva (ID: <?= htmlspecialchars($reserva['idReserva']) ?>) </h2>
+</div>
     
     <p>
         <strong>Cliente:</strong> (ID: <?= htmlspecialchars($reserva['idUsuario']) ?>) <br>
@@ -55,8 +65,13 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
             </select>
         </div>
 
-        <button type="submit" name="acao_editar_reserva">Salvar Alterações</button>
-        <a href="?pagina=listar_reservas">Cancelar</a>
+        <div style="text-align: center;">
+            <button type="submit" name="acao_editar_reserva">Salvar Alterações</button>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="?pagina=listar_reservas" class="btn btn-secondary">Cancelar</a>
+        </div>
     </form>
 </main>
 </body>

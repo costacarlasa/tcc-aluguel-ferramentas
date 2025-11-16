@@ -16,7 +16,10 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
 
 <main>
-    <h2>Meu Perfil</h2>
+    <div style="text-align: center;">
+        <h1>Meu Perfil</h1>
+    </div>
+
     <p>Olá, <?= htmlspecialchars($_SESSION['nome_usuario']) ?>. Aqui você pode atualizar seus dados.</p>
 
     <?php if (isset($_GET['status'])): ?>

@@ -48,7 +48,10 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
 
 <main>
-    <h2>Vitrine de Ferramentas</h2>
+    <div style="text-align: center;">
+        <h1>Vitrine de Ferramentas</h1>
+    </div>
+
     <p>Olá, <?= htmlspecialchars($_SESSION['nome_usuario']) ?>!</p>
     <p>Escolha sua ferramenta.</p>
 

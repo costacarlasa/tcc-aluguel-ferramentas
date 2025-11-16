@@ -16,14 +16,17 @@
 <header>
     <h1>Bem-vindo, <?= htmlspecialchars($_SESSION['nome_usuario']) ?>!</h1>
 </header>
-<main>
-    <h2>Painel Administrativo</h2>
-    <p>Use o menu abaixo para navegar pelas funções do sistema.</p>
-</main>
-
 <?php 
     require_once __DIR__ . '/../../_partials/menu_gerenciamento_admin.php';
 ?>
+<main>
+    <div style="text-align: center;">
+        <h2>Painel Administrativo</h2>
+        <p>Use o menu acima para navegar pelas funções do sistema.</p>
+    </div>
+</main>
+
+
 
 
 

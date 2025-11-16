@@ -16,7 +16,9 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 ?>
 
 <main>
-    <h2>Editar Minha Ferramenta</h2>
+    <div style="text-align: center;">
+        <h2>Editar Minha Ferramenta</h2>
+    </div>
 
     <?php if (isset($ferramenta) && $ferramenta): ?>
         <form action="index.php" method="POST" enctype="multipart/form-data">

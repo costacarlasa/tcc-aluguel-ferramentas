@@ -16,7 +16,10 @@
 ?>
 
 <main>
-    <h2>Cadastrar Nova Ferramenta</h2>
+    <div style="text-align: center;">
+        <h2>Cadastrar Nova Ferramenta</h2>
+    </div>
+
     <form action="index.php" method="POST" enctype="multipart/form-data">
     <div>
         <label>Nome:</label>
@@ -42,7 +45,7 @@
 
     <div>
             <label>Valor da Diára (R$):</label>
-            <input type="number" name="preco_ferramenta" step="0.01" placeholder="R$ 189,90" required>
+            <input type="number" name="preco_ferramenta" step="0.01" placeholder="189,90" required>
     </div>
 
     <div>
