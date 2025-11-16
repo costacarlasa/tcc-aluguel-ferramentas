@@ -104,6 +104,13 @@ class ReservaController {
         $dataReserva = $_POST['data_reserva'];
         $dataDevolucao = $_POST['data_devolucao'];
 
+        $reservaModel = new Reserva();
+        $disponivel = $reservaModel->verificarDisponibilidade($idFerramenta, $dataReserva, $dataDevolucao);
+
+        if (!$disponivel) {
+            header("Location: index.php?pagina=reservar_ferramenta&id=$idFerramenta&status=data_indisponivel");
+            exit;
+        }
 
         $ferramentaModel = new Ferramenta();
         $ferramenta = $ferramentaModel->buscarFerramentaPorId($idFerramenta);
@@ -125,12 +132,12 @@ class ReservaController {
             'valor_diaria' => $valorDiaria,
             'total_dias' => $totalDias,
             'valor_total' => $valorTotal
-        ];
-
+        ];        
         header("Location: index.php?pagina=confirmar_reserva");
         exit;
     }
 
+    
     public function processarCadastroReserva() {
         if (!isset($_SESSION['id_usuario']) || !isset($_SESSION['reserva_simulacao'])) {
             header("Location: index.php?pagina=login&status=faca_login");

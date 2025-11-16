@@ -198,5 +198,31 @@ class Reserva {
             return false;
         }
     }
+
+    public function verificarDisponibilidade($idFerramenta, $dataInicio, $dataFim) {
+        $conexaoBD = new ConexaoBD();
+        $pdo = $conexaoBD->conectar();
+        
+        try {
+            $sql = "SELECT COUNT(*) FROM reserva 
+                    WHERE idFerramenta = :idFerramenta
+                    AND statusReserva = 'ativa' 
+                    AND (dataReserva <= :dataFim) 
+                    AND (dataDevolucaoReserva >= :dataInicio)";
+            
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':idFerramenta', $idFerramenta, PDO::PARAM_INT);
+            $stmt->bindParam(':dataInicio', $dataInicio);
+            $stmt->bindParam(':dataFim', $dataFim);
+            $stmt->execute();
+            
+            $conflitos = $stmt->fetchColumn();
+            return ($conflitos == 0);
+
+        } catch (PDOException $e) {
+            error_log("Erro ao verificar disponibilidade: " + $e->getMessage());
+            return false; 
+        }
+    }
 }
 ?>

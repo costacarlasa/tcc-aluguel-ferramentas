@@ -16,6 +16,13 @@ require_once __DIR__ . '/../Controller/verificaCliente.php';
 ?>
 
 <main>
+    <?php if (isset($_GET['status']) && $_GET['status'] == 'data_indisponivel'): ?>
+        <p style="color: red; border: 1px solid red; padding: 10px; font-weight: bold;">
+            ERRO: As datas selecionadas não estão disponíveis para esta ferramenta.
+            Por favor, escolha outro período.
+        </p>
+    <?php endif; ?>
+    
     <p>Você está reservando a ferramenta:</p>
 
     <div class="ferramenta-card" style="width: 300px;">
