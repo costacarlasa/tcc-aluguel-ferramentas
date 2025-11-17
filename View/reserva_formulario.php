@@ -1,13 +1,23 @@
 <?php
 require_once __DIR__ . '/../Controller/verificaCliente.php';
-
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Simular Reserva</title>
-    <link rel="stylesheet" href="View/css/style.css">
+
+    <link rel="stylesheet" href="View/css/style.css"> 
+    
+    <style>
+        .ferramenta-card {
+            /* (O style.css já define a aparência do card) */
+            /* Vamos apenas centralizá-lo e limitar a largura */
+            margin: 20px auto; 
+            width: 300px;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,18 +26,16 @@ require_once __DIR__ . '/../Controller/verificaCliente.php';
 ?>
 
 <main>
-    <?php if (isset($_GET['status']) && $_GET['status'] == 'data_indisponivel'): ?>
-        <p style="color: red; border: 1px solid red; padding: 10px; font-weight: bold;">
-            ERRO: As datas selecionadas não estão disponíveis para esta ferramenta.
-            Por favor, escolha outro período.
-        </p>
-    <?php endif; ?>
-    
+    <h2 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #3498db; border-bottom: none;">
+        Simular Reserva
+    </h2>
     <p>Você está reservando a ferramenta:</p>
 
-    <div class="ferramenta-card" style="width: 300px;">
+    <div class="ferramenta-card">
         <?php if (!empty($ferramenta['fotoFerramenta'])): ?>
             <img src="Img/<?= htmlspecialchars($ferramenta['fotoFerramenta']) ?>" alt="<?= htmlspecialchars($ferramenta['nomeFerramenta']) ?>">
+        <?php else: ?>
+            <img src="Img/Screenshot_1.png" alt="Ferramenta sem foto">
         <?php endif; ?>
         <h4><?= htmlspecialchars($ferramenta['nomeFerramenta']) ?></h4>
         <p>Preço: R$ <?= number_format($ferramenta['precoFerramenta'], 2, ',', '.') ?> / dia</p>
@@ -50,12 +58,14 @@ require_once __DIR__ . '/../Controller/verificaCliente.php';
 
         <input type="hidden" name="id_ferramenta" value="<?= htmlspecialchars($ferramenta['idFerramenta']) ?>">
         
-        <a href="?pagina=detalhe_ferramenta&id=<?= $ferramenta['idFerramenta'] ?>" style="display: inline-block; padding: 8px 12px; background-color: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 15px;">
-            &larr; Voltar para Detalhes
-        </a>
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+        
+            <a href="?pagina=detalhe_ferramenta&id=<?= $ferramenta['idFerramenta'] ?>" class="btn btn-secondary">
+                &larr; Voltar
+            </a>
 
-        <button type="submit" name="acao_simular_reserva">Próximo</button>
-
+            <button type="submit" name="acao_simular_reserva">Próximo</button>
+        </div>
     </form>
     
 </main>

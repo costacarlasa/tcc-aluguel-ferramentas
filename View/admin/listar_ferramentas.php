@@ -20,7 +20,8 @@
 <main style="max-width: none; width: 95%;">
 
         <div style="text-align: center;">
-            <h1> Lista de Ferramentas </h1>
+            <h1 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+             Lista de Ferramentas </h1>
         </div>
         
         <p><a href="?pagina=cadastrar_ferramentas" class="btn btn-primary">+ Cadastrar Nova Ferramenta</a></p>
@@ -50,7 +51,7 @@
                         <td><?= htmlspecialchars($f['categoriaFerramenta']) ?></td>
                         <td>R$ <?= number_format($f['precoFerramenta'], 2, ',', '.') ?></td>
                         <td><?= htmlspecialchars($f['disponibilidadeFerramenta']) ?></td>
-                        <td>
+                        <td style="text-align: center;"> 
                             <?php if (!empty($f['fotoFerramenta'])): ?>
                                 <img src="Img/<?= htmlspecialchars($f['fotoFerramenta']) ?>" alt="<?= htmlspecialchars($f['nomeFerramenta']) ?>" width="100">
                             <?php else: ?>

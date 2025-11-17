@@ -16,7 +16,8 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 
 <main>
     <div style="text-align: center;">
-    <h2>Editar Usuário (ID: <?= htmlspecialchars($usuario['idUsuario']) ?>)</h2>
+        <h2 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Editar Usuário (ID: <?= htmlspecialchars($usuario['idUsuario']) ?>)</h2>
     </div>
     <p>Atenção: A senha não pode ser alterada por este formulário.</p>
     

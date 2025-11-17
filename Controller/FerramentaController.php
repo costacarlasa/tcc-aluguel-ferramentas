@@ -131,7 +131,7 @@ class FerramentaController {
     private function processarUploadFoto() {
         if (isset($_FILES['foto_ferramenta']) && $_FILES['foto_ferramenta']['error'] == 0) {
             
-            $targetDir = __DIR__ . "/../../Img/";
+            $targetDir = __DIR__ . "/../Img/";
             
             if (!file_exists($targetDir)) {
                 if (!mkdir($targetDir, 0777, true)) {

@@ -17,7 +17,8 @@
 
 <main>
     <div style="text-align: center;">
-        <h2>Editar Ferramenta</h2>
+        <h2 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Editar Ferramenta</h2>
     </div>
 
     <form action="index.php" method="POST" enctype="multipart/form-data">

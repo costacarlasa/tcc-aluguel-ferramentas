@@ -29,7 +29,8 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
     <?php endif; ?>
 
     <div style="text-align: center;">
-        <h2> Gerenciar Reservas </h2>
+        <h1 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Gerenciar Reservas </h1>
     </div>
     
     <table>

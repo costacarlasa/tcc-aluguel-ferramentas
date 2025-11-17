@@ -23,7 +23,8 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 
 <main class="form-container">
     <div style="text-align: center;">
-        <h2>Confirmar Exclusão de Usuário</h2>
+        <h2 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Confirmar Exclusão de Usuário</h2>
     </div>
 
     <?php if (isset($usuario) && $usuario): ?>

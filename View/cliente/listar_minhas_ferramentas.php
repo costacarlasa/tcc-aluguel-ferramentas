@@ -16,7 +16,8 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
 
 <main>
     <div style="text-align: center;">
-        <h2>Minhas Ferramentas - Modo Locador </h2>
+        <h2 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Minhas Ferramentas - Modo Locador </h2>
         <p>Aqui você gerencia as ferramentas que cadastrou para aluguel.</p>
     </div>
 
@@ -51,7 +52,7 @@ require_once __DIR__ . '/../../Controller/verificaCliente.php';
                     <td><?= htmlspecialchars($f['categoriaFerramenta']) ?></td>
                     <td>R$ <?= number_format($f['precoFerramenta'], 2, ',', '.') ?></td>
                     <td><?= htmlspecialchars($f['disponibilidadeFerramenta']) ?></td>
-                    <td>
+                    <td style="text-align: center;"> 
                         <?php if (!empty($f['fotoFerramenta'])): ?>
                             <img src="Img/<?= htmlspecialchars($f['fotoFerramenta']) ?>" alt="<?= htmlspecialchars($f['nomeFerramenta']) ?>" width="100">
                         <?php else: ?>

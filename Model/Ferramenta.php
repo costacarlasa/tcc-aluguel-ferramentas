@@ -65,36 +65,41 @@ class Ferramenta {
         }
     }
     
-    public function atualizarFerramenta() {
-        $conexaoBD = new ConexaoBD();
-        $pdo = $conexaoBD->conectar();
+public function atualizarFerramenta() {
+    $conexaoBD = new ConexaoBD();
+    $pdo = $conexaoBD->conectar();
 
-        try {
-            $sql = "UPDATE ferramenta SET 
-                        nomeFerramenta = :nome, 
-                        modeloFerramenta = :modelo, 
-                        categoriaFerramenta = :categoria, 
-                        precoFerramenta = :preco, 
-                        disponibilidadeFerramenta = :disponibilidade, 
-                        fotoFerramenta = :foto
-                    WHERE idFerramenta = :id";
-            
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':nome', $this->nomeFerramenta);
-            $stmt->bindParam(':modelo', $this->modeloFerramenta);
-            $stmt->bindParam(':categoria', $this->categoriaFerramenta);
-            $stmt->bindParam(':preco', $this->precoFerramenta);
-            $stmt->bindParam(':disponibilidade', $this->disponibilidadeFerramenta);
-            $stmt->bindParam(':foto', $this->fotoFerramenta);
-            $stmt->bindParam(':id', $this->idFerramenta, PDO::PARAM_INT);
-            
-            return $stmt->execute();
+    try {
+        // SQL CORRIGIDO (inclui idUsuario e disponibilidade)
+        $sql = "UPDATE ferramenta SET 
+                    nomeFerramenta = :nome, 
+                    modeloFerramenta = :modelo, 
+                    categoriaFerramenta = :categoria, 
+                    precoFerramenta = :preco, 
+                    disponibilidadeFerramenta = :disponibilidade, 
+                    fotoFerramenta = :foto,
+                    idUsuario = :idUsuario
+                WHERE idFerramenta = :id";
 
-        } catch (PDOException $e) {
-            error_log("Erro ao atualizar ferramenta: " . $e->getMessage());
-            return false;
-        }
+        $stmt = $pdo->prepare($sql);
+
+        // BindParams CORRIGIDOS
+        $stmt->bindParam(':nome', $this->nomeFerramenta);
+        $stmt->bindParam(':modelo', $this->modeloFerramenta);
+        $stmt->bindParam(':categoria', $this->categoriaFerramenta);
+        $stmt->bindParam(':preco', $this->precoFerramenta);
+        $stmt->bindParam(':disponibilidade', $this->disponibilidadeFerramenta);
+        $stmt->bindParam(':foto', $this->fotoFerramenta);
+        $stmt->bindParam(':idUsuario', $this->idUsuario); // <-- Estava em falta
+        $stmt->bindParam(':id', $this->idFerramenta, PDO::PARAM_INT);
+
+        return $stmt->execute();
+
+    } catch (PDOException $e) {
+        error_log("Erro ao atualizar ferramenta: " . $e->getMessage());
+        return false;
     }
+}
 
     public function listarFerramentas() {
         $conexaoBD = new ConexaoBD();

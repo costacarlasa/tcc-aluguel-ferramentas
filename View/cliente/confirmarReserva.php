@@ -21,7 +21,11 @@ if (!$simulacao) {
 ?>
 
 <main>
-    <h2>Revise sua Reserva</h2>
+    <div style="text-align: center;">
+        <h2 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+            Revise sua Reserva
+        </h2>
+    </div>
     <p>Por favor, confirme os detalhes da sua reserva antes de finalizar.</p>
 
     <div>

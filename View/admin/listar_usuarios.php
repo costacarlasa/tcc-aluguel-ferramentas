@@ -17,7 +17,8 @@ require_once __DIR__ . '/../../Controller/verificaAdmin.php';
 
 <main>
     <div style="text-align: center;">
-        <h1>Gerenciar Usuários</h1>
+        <h1 style="background-color: #f9f9f9; padding: 10px; border-left: 5px solid #34495e; border-bottom: none;">
+        Gerenciar Usuários</h1>
     </div>
     
     <p><a href="?pagina=cadastrar_funcionario" class="btn btn-primary">+ Cadastrar Novo Funcionário</a></p>
